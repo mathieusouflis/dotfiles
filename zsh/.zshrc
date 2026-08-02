@@ -79,31 +79,26 @@ source $ZSH/oh-my-zsh.sh
 
 # export MANPATH="/usr/local/man:$MANPATH"
 
-# You may need to manually set your language environment
-# export LANG=en_US.UTF-8
-
-# Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='nvim'
-# fi
-
 # Compilation flags
 # export ARCHFLAGS="-arch $(uname -m)"
 
-# Set personal aliases, overriding those provided by Oh My Zsh libs,
-# plugins, and themes. Aliases can be placed here, though Oh My Zsh
-# users are encouraged to define aliases within a top-level file in
-# the $ZSH_CUSTOM folder, with .zsh extension. Examples:
-# - $ZSH_CUSTOM/aliases.zsh
-# - $ZSH_CUSTOM/macos.zsh
-# For a full list of active aliases, run `alias`.
-#
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
+# case-insensitive completion
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
 
+# kubectl completion
+source <(kubectl completion zsh)
+
+# keybindings
+bindkey '^w' autosuggest-execute
+bindkey '^e' autosuggest-accept
+bindkey '^u' autosuggest-toggle
+bindkey '^L' vi-forward-word
+bindkey '^k' up-line-or-search
+bindkey '^j' down-line-or-search
+bindkey jj vi-cmd-mode
+
+export LANG=en_US.UTF-8
+export EDITOR=/opt/homebrew/bin/nvim
 
 # Created by `pipx` on 2025-03-22 18:21:22
 export PATH="$PATH:/Users/mathieusouflis/.local/bin"
@@ -134,26 +129,10 @@ case ":$PATH:" in
 esac
 # pnpm end
 
-alias ..='cd ..'
-alias ...='cd ../..'
-alias perso='cd ~/Documents/Perso/'
-alias pro='cd ~/Documents/Pro/'
-alias freelance='cd ~/Documents/Freelance/'
-alias school='cd ~/Documents/School/'
-alias cls='clear'
-alias rm='rm -i'
-alias gu='git pull'
-alias gsw='git switch'
-alias gswc='git switch -c'  
-alias gs='git status'
-alias gc='git commit -m'
-alias gp='git push'
-alias gpf='git push -f'
-alias tf='terraform'
-alias aws-hetic='aws --profile hetic'
 alias i3lock="pmset displaysleepnow"
+alias gsw='git switch'
+alias gswc='git switch -c'
 
-export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
 export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
 
 # .NET (prefer ~/.dotnet's .NET 10 over /usr/local/share/dotnet's .NET 8, needed by Zed's Roslyn LSP)
@@ -162,7 +141,6 @@ export PATH="$HOME/.dotnet:$PATH"
 
 # GOPLS
 export PATH="$PATH:$HOME/go/bin"
-export PATH="$HOME/Library/Application\ Support/Zed/extensions/work/luau/luau-lsp-binaries/luau-lsp-1.63.0/:$PATH"
 export PATH="$HOME/Library/Application Support/Zed/extensions/work/luau/luau-lsp-binaries/luau-lsp-1.63.0/:$PATH"
 
 eval $(thefuck --alias)
@@ -177,6 +155,18 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C /opt/homebrew/bin/terraform terraform
 
+### FZF ###
+# 2>/dev/null: fzf's own shell scripts hit a known-harmless zsh quirk
+# ("can't change option: zle") during their internal option save/restore;
+# completion and keybindings still register fine despite the message.
+[ -f "$(brew --prefix fzf)/shell/completion.zsh" ] && source "$(brew --prefix fzf)/shell/completion.zsh" 2>/dev/null
+[ -f "$(brew --prefix fzf)/shell/key-bindings.zsh" ] && source "$(brew --prefix fzf)/shell/key-bindings.zsh" 2>/dev/null
+
+# navigation
+fcd() { cd "$(find . -type d -not -path '*/.*' | fzf)" && ls -la }
+f() { echo "$(find . -type f -not -path '*/.*' | fzf)" | pbcopy }
+fv() { nvim "$(find . -type f -not -path '*/.*' | fzf)" }
+
 # Vite+ bin (https://viteplus.dev)
 . "$HOME/.vite-plus/env"
 
@@ -185,3 +175,8 @@ export STARSHIP_CONFIG=~/.config/starship/starship.toml
 
 # opam
 [[ ! -r '/Users/mathieusouflis/.opam/opam-init/init.zsh' ]] || source '/Users/mathieusouflis/.opam/opam-init/init.zsh' > /dev/null 2> /dev/null
+
+# Nix (no-op until migrate-to-darwin-nix lands; guarded so it's safe either way)
+if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then
+  . '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
+fi
