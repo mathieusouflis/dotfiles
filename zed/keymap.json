@@ -1,0 +1,35 @@
+[
+  {
+    "context": "Terminal",
+    "bindings": {
+      "shift-enter": [
+        "terminal::SendText",
+        "\u001b\r"
+      ]
+    }
+  },
+  {
+    "context": "ProjectPanel",
+    "bindings": {
+      "cmd-shift-e": "project_panel::NewFile"
+    }
+  },
+  {
+    "context": "ProjectPanel",
+    "bindings": {
+      "cmd-e": "project_panel::NewDirectory"
+    }
+  },
+  {
+    "context": "ProjectPanel && not_editing",
+    "bindings": {
+      "cmd-shift-e": "project_panel::Open"
+    }
+  },
+  {
+    "context": "ProjectPanel && not_editing",
+    "unbind": {
+      "p": "project_panel::Open"
+    }
+  }
+]

@@ -1,0 +1,366 @@
+{
+  "markdown_preview_code_font_family": "Geist Mono",
+  "markdown_preview_font_family": "Geist",
+  "disable_ai": false,
+  "telemetry": {
+    "diagnostics": false,
+    "metrics": false,
+    "anthropic_retention": false
+  },
+  "session": {
+    "trust_all_worktrees": true
+  },
+  "helix_mode": false,
+  "cli_default_open_behavior": "existing_window",
+  "outline_panel": {
+    "dock": "left"
+  },
+  "collaboration_panel": {
+    "dock": "left"
+  },
+  "buffer_font_family": "Geist Mono",
+  "ui_font_family": "Geist",
+  "diff_view_style": "unified",
+  "vim": {
+    "use_smartcase_find": true,
+    "toggle_relative_line_numbers": true,
+    "default_mode": "normal"
+  },
+  "edit_predictions": {
+    "provider": "zed"
+  },
+  "vim_mode": true,
+  "colorize_brackets": false,
+  "hard_tabs": false,
+  "gutter": {
+    "line_numbers": true
+  },
+  "which_key": {
+    "enabled": false
+  },
+  "calls": {
+    "mute_on_join": true
+  },
+  "context_servers": {
+    "mcp-server-context7": {
+      "enabled": true,
+      "settings": {}
+    }
+  },
+  "cursor_blink": true,
+  "tab_size": 2,
+  "git_panel": {
+    "dock": "left",
+    "tree_view": true,
+    "sort_by_path": false
+  },
+  "agent_servers": {
+    "opencode": {
+      "type": "registry"
+    },
+    "claude-acp": {
+      "default_config_options": {
+        "effort": "medium",
+        "mode": "auto",
+        "model": "sonnet"
+      },
+      "type": "registry"
+    }
+  },
+  "buffer_font_features": {
+    "calt": 1
+  },
+  "git": {
+    "inline_blame": {
+      "enabled": true,
+      "show_commit_summary": false
+    }
+  },
+  "ui_font_features": {
+    "calt": 0
+  },
+  "project_panel": {
+    "dock": "left",
+    "indent_size": 15,
+    "hide_root": true,
+    "auto_fold_dirs": false,
+    "scrollbar": {
+      "show": "never"
+    }
+  },
+  "icon_theme": {
+    "mode": "dark",
+    "light": "Light Charmed Icons",
+    "dark": "Flow Deep"
+  },
+  "agent": {
+    "show_turn_stats": true,
+    "sidebar_side": "right",
+    "dock": "right",
+    "tool_permissions": {
+      "default": "allow"
+    },
+    "profiles": {},
+    "inline_assistant_model": {
+      "provider": "openai-subscribed",
+      "model": "gpt-5.4"
+    },
+    "default_profile": "write",
+    "default_model": {
+      "effort": "medium",
+      "enable_thinking": true,
+      "provider": "openai-subscribed",
+      "model": "gpt-5.4"
+    },
+    "model_parameters": []
+  },
+  "terminal": {
+    "font_family": "Geist Mono",
+    "option_as_meta": false,
+    "toolbar": {
+      "breadcrumbs": true
+    },
+    "font_features": null,
+    "dock": "bottom",
+    "button": true,
+    "font_size": 19
+  },
+  "base_keymap": "VSCode",
+  "ui_font_size": 19,
+  "buffer_font_size": 19,
+  "theme": {
+    "mode": "dark",
+    "light": "Version 14 Light",
+    "dark": "Version 14 Dark"
+  },
+  "languages": {
+    "Solidity": {
+      "formatter": {
+        "external": {
+          "command": "forge",
+          "arguments": [
+            "fmt",
+            "--raw",
+            "-"
+          ]
+        }
+      }
+    },
+    "JavaScript": {
+      "formatter": {
+        "language_server": {
+          "name": "biome"
+        }
+      },
+      "code_actions_on_format": {
+        "source.fixAll.biome": true,
+        "source.organizeImports.biome": true
+      }
+    },
+    "TypeScript": {
+      "formatter": {
+        "language_server": {
+          "name": "biome"
+        }
+      },
+      "language_servers": [
+        "vtsls",
+        "biome",
+        "!typescript-language-server"
+      ],
+      "code_actions_on_format": {
+        "source.fixAll.biome": true,
+        "source.organizeImports.biome": true
+      }
+    },
+    "TSX": {
+      "formatter": {
+        "language_server": {
+          "name": "biome"
+        }
+      },
+      "language_servers": [
+        "vtsls",
+        "biome",
+        "!typescript-language-server"
+      ],
+      "code_actions_on_format": {
+        "source.fixAll.biome": true,
+        "source.organizeImports.biome": true
+      }
+    },
+    "JSON": {
+      "formatter": {
+        "language_server": {
+          "name": "biome"
+        }
+      },
+      "code_actions_on_format": {
+        "source.fixAll.biome": true
+      }
+    },
+    "JSONC": {
+      "formatter": {
+        "language_server": {
+          "name": "biome"
+        }
+      },
+      "code_actions_on_format": {
+        "source.fixAll.biome": true
+      }
+    },
+    "CSS": {
+      "formatter": {
+        "language_server": {
+          "name": "biome"
+        }
+      },
+      "code_actions_on_format": {
+        "source.fixAll.biome": true,
+        "source.organizeImports.biome": true
+      }
+    },
+    "GraphQL": {
+      "formatter": {
+        "language_server": {
+          "name": "biome"
+        }
+      },
+      "code_actions_on_format": {
+        "source.fixAll.biome": true
+      }
+    },
+    "Python": {
+      "language_servers": [
+        "ruff",
+        "pyright",
+        "!pylsp",
+        "!python-refactoring",
+        "!basedpyright"
+      ],
+      "format_on_save": "on",
+      "formatter": [
+        {
+          "code_action": "source.organizeImports.ruff"
+        },
+        {
+          "code_action": "source.fixAll.ruff"
+        },
+        {
+          "language_server": {
+            "name": "ruff"
+          }
+        }
+      ]
+    },
+    "C#": {
+      "language_servers": [
+        "roslyn",
+        "!omnisharp",
+        "!csharp-ls"
+      ],
+      "format_on_save": "on",
+      "formatter": {
+        "external": {
+          "command": "dotnet",
+          "arguments": [
+            "format",
+            "--include",
+            "{buffer_path}"
+          ]
+        }
+      }
+    },
+    "C": {
+      "format_on_save": "on",
+      "formatter": {
+        "language_server": {
+          "name": "clangd"
+        }
+      }
+    },
+    "C++": {
+      "format_on_save": "on",
+      "formatter": {
+        "language_server": {
+          "name": "clangd"
+        }
+      }
+    },
+    "OCaml": {
+      "format_on_save": "on",
+      "formatter": {
+        "external": {
+          "command": "ocamlformat",
+          "arguments": [
+            "--name",
+            "{buffer_path}",
+            "-"
+          ]
+        }
+      }
+    }
+  },
+  "lsp": {
+    "gopls": {
+      "initialization_options": {
+        "hints": {
+          "assignVariableTypes": true,
+          "compositeLiteralFields": true,
+          "compositeLiteralTypes": true,
+          "constantValues": true,
+          "functionTypeParameters": true,
+          "parameterNames": true,
+          "rangeVariableTypes": true
+        }
+      }
+    },
+    "vtsls": {
+      "settings": {
+        "typescript": {
+          "updateImportsOnFileMove": {
+            "enabled": "always"
+          },
+          "tsserver": {
+            "maxTsServerMemory": 16184
+          }
+        },
+        "javascript": {
+          "updateImportsOnFileMove": {
+            "enabled": "always"
+          },
+          "tsserver": {
+            "maxTsServerMemory": 16184
+          }
+        }
+      },
+      "enable_lsp_tasks": true
+    },
+    "discord_presence": {
+      "initialization_options": {
+        "git_integration": true
+      }
+    },
+    "ruff": {
+      "initialization_options": {
+        "settings": {
+          "lineLength": 100,
+          "lint": {
+            "extendSelect": [
+              "I"
+            ]
+          }
+        }
+      }
+    },
+    "biome": {
+      "settings": {
+        "config_path": "<path>/biome.json",
+        "require_config_file": true
+      }
+    }
+  },
+  "jupyter": {
+    "enabled": true
+  }
+}
