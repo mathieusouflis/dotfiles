@@ -1,6 +1,12 @@
 " Netrw: show hidden/dot files by default
 let g:netrw_hide = 0
 
+" Use ripgrep for :grep
+if executable('rg')
+  set grepprg=rg\ --vimgrep\ --smart-case\ --hidden
+  set grepformat=%f:%l:%c:%m
+endif
+
 set autoindent
 set autoread
 set hlsearch

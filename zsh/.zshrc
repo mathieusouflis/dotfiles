@@ -207,6 +207,10 @@ complete -o nospace -C /opt/homebrew/bin/terraform terraform
 # completion and keybindings still register fine despite the message.
 [ -f "$(brew --prefix fzf)/shell/completion.zsh" ] && source "$(brew --prefix fzf)/shell/completion.zsh" 2>/dev/null
 [ -f "$(brew --prefix fzf)/shell/key-bindings.zsh" ] && source "$(brew --prefix fzf)/shell/key-bindings.zsh" 2>/dev/null
+export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git/*"'
+
+### RIPGREP ###
+alias grep='rg'
 
 # navigation
 fcd() { cd "$(find . -type d -not -path '*/.*' | fzf)" && ls -la }
