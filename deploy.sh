@@ -12,5 +12,6 @@ stow -t ~/.config/git git
 stow -t ~/.config/nvim nvim
 stow -t ~/.config starship
 stow -t ~ zsh
+stow -t ~ vim
 
 echo "done"
