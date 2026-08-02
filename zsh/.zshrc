@@ -45,6 +45,9 @@ alias i3lock="pmset displaysleepnow"
 alias gsw='git switch'
 alias gswc='git switch -c'
 
+# Dotfiles
+alias restow="~/dotfiles/stow.sh"
+
 # Git
 alias gc="git commit -m"
 alias gca="git commit -a -m"
