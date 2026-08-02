@@ -1,12 +1,12 @@
 return {
   "NickvanDyke/opencode.nvim",
   dependencies = {
-    -- Recommended for `ask()`, and required for `toggle()` — otherwise optional
+    -- Recommended for `ask()`, and required for `toggle()`, otherwise optional
     { "folke/snacks.nvim", opts = { input = { enabled = true } } },
   },
   config = function()
     vim.g.opencode_opts = {
-      -- Your configuration, if any — see `lua/opencode/config.lua`
+      -- Your configuration, if any. See `lua/opencode/config.lua`
     }
 
     -- Required for `opts.auto_reload`
