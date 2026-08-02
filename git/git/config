@@ -1,0 +1,34 @@
+[user]
+	email = 39670015+mathieusouflis@users.noreply.github.com
+	name = Mathieu
+	signingkey = 975E15DD3BCDAAFC
+[pull]
+	rebase = true
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+[init]
+	defaultBranch = main
+[commit]
+	gpgsign = true
+[tag]
+	gpgSign = true
+[push]
+	default = current
+[rebase]
+	autoStash = true
+	updateRefs = true
+[fetch]
+	prune = true
+[merge]
+	ff = only
+[rerere]
+	enabled = true
+[alias]
+	lg = log --oneline --graph --decorate --all
+[status]
+	branch = true
+[safe]
+	directory = *
