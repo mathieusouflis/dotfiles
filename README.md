@@ -4,33 +4,38 @@ my mac config, managed with stow.
 
 ## layout
 
-each folder is a stow package. target is ~/.config (see .stowrc), except zsh
-which targets $HOME directly (there's no XDG spot for .zshrc without extra
-setup, so it just gets a target override at deploy time).
+each folder is a package, one dotfile per folder, flat, no nesting.
 
-	ghostty/ghostty/config    >  ~/.config/ghostty/config
-	git/git/config            >  ~/.config/git/config
-	git/git/ignore            >  ~/.config/git/ignore
-	nvim/nvim/...             >  ~/.config/nvim/...
-	starship/starship.toml    >  ~/.config/starship.toml
-	zsh/.zshrc                >  ~/.zshrc  (target override, see below)
+	ghostty/config       >  ~/.config/ghostty/config
+	git/config           >  ~/.config/git/config
+	git/ignore           >  ~/.config/git/ignore
+	nvim/...             >  ~/.config/nvim/...
+	starship/starship.toml  >  ~/.config/starship.toml
+	zsh/.zshrc           >  ~/.zshrc
 
-nesting depth follows where the live file actually sits. a tool with its own
-subfolder under ~/.config (ghostty, git, nvim) gets double nested, package
-name repeated once. a tool whose file sits right in ~/.config with no
-subfolder (starship) does not.
+each package needs its own target, since they don't all land in the same
+place. ghostty, git, and nvim each get their own folder under ~/.config.
+starship's file sits right in ~/.config with no subfolder. zsh has no XDG
+spot at all, so it targets $HOME directly.
 
 ## deploy
 
 	brew install stow
-	stow ghostty git nvim starship
+	./deploy.sh
+
+that runs stow once per package with the right target. to do it by hand,
+or to deploy just one package:
+
+	stow -t ~/.config/ghostty ghostty
+	stow -t ~/.config/git git
+	stow -t ~/.config/nvim nvim
+	stow -t ~/.config starship
 	stow -t ~ zsh
 
-or dry run first with `stow -n -v <package>` to see what it would do before
-it does it.
+add `-n -v` to any of those to preview what it would do first.
 
 ## adding a package
 
-make a folder named after the tool, nest the config so it lands where it
-should under ~/.config, then stow it. if the tool's config doesn't live
-under ~/.config, give it a target override like zsh has.
+make a folder named after the tool, put its file(s) in flat with no extra
+nesting, then add a line to deploy.sh with the right target (the folder
+that would directly contain those files once deployed).
