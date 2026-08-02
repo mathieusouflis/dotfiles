@@ -118,6 +118,9 @@ export NVM_DIR="$HOME/.nvm"
 export PATH="/Users/mathieusouflis/.codeium/windsurf/bin:$PATH"
 
 
+# ATUIN
+eval "$(atuin init zsh)"
+
 # DIRENV
 export DIRENV_LOG_FORMAT=""
 eval "$(direnv hook zsh)"

@@ -10,14 +10,18 @@ each folder is a package, one dotfile per folder, flat, no nesting.
 	git/config           >  ~/.config/git/config
 	git/ignore           >  ~/.config/git/ignore
 	nvim/...             >  ~/.config/nvim/...
+	atuin/config.toml    >  ~/.config/atuin/config.toml
 	starship/starship.toml  >  ~/.config/starship.toml
 	zsh/.zshrc           >  ~/.zshrc
 	vim/.vimrc           >  ~/.vimrc
 
 each package needs its own target, since they don't all land in the same
-place. ghostty, git, and nvim each get their own folder under ~/.config.
-starship's file sits right in ~/.config with no subfolder. zsh and vim
-have no XDG spot at all, so they target $HOME directly.
+place. ghostty, git, nvim, and atuin each get their own folder under
+~/.config. starship's file sits right in ~/.config with no subfolder. zsh
+and vim have no XDG spot at all, so they target $HOME directly.
+
+atuin also needs `eval "$(atuin init zsh)"` in .zshrc (already there) to
+actually hook into the shell — the config.toml alone doesn't do that.
 
 vim-plug (the plugin manager .vimrc bootstraps) and the plugins it
 installs live at ~/.vim/autoload and ~/.vim/plugged — real downloaded
@@ -34,6 +38,7 @@ or to deploy just one package:
 	stow -t ~/.config/ghostty ghostty
 	stow -t ~/.config/git git
 	stow -t ~/.config/nvim nvim
+	stow -t ~/.config/atuin atuin
 	stow -t ~/.config starship
 	stow -t ~ zsh
 	stow -t ~ vim
