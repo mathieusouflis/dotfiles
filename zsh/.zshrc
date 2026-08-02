@@ -164,7 +164,12 @@ alias ....="cd ../../.."
 alias .....="cd ../../../.."
 alias ......="cd ../../../../.."
 
-alias la=tree
+# Eza
+alias ls='eza --icons --git'
+alias ll='eza -l --icons --git'
+alias la='eza -la --icons --git'
+alias lt='eza --tree --level=2 --icons --git'
+
 alias cl='clear'
 
 # K8S
