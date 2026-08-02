@@ -10,17 +10,13 @@ each folder is a package, one dotfile per folder, flat, no nesting.
 	git/config           >  ~/.config/git/config
 	git/ignore           >  ~/.config/git/ignore
 	nvim/...             >  ~/.config/nvim/...
-	tmux/tmux.conf       >  ~/.config/tmux/tmux.conf
-	tmux/tmux.reset.conf >  ~/.config/tmux/tmux.reset.conf
 	starship/starship.toml  >  ~/.config/starship.toml
 	zsh/.zshrc           >  ~/.zshrc
 
 each package needs its own target, since they don't all land in the same
-place. ghostty, git, nvim, and tmux each get their own folder under
-~/.config. starship's file sits right in ~/.config with no subfolder. zsh
-has no XDG spot at all, so it targets $HOME directly.
-
-tmux plugins are managed separately by TPM, not stow — see below.
+place. ghostty, git, and nvim each get their own folder under ~/.config.
+starship's file sits right in ~/.config with no subfolder. zsh has no XDG
+spot at all, so it targets $HOME directly.
 
 ## deploy
 
@@ -33,23 +29,10 @@ or to deploy just one package:
 	stow -t ~/.config/ghostty ghostty
 	stow -t ~/.config/git git
 	stow -t ~/.config/nvim nvim
-	stow -t ~/.config/tmux tmux
 	stow -t ~/.config starship
 	stow -t ~ zsh
 
 add `-n -v` to any of those to preview what it would do first.
-
-## tmux plugins
-
-one-time setup, not handled by stow:
-
-	git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
-	~/.tmux/plugins/tpm/bin/install_plugins
-
-TPM notices the config lives under ~/.config/tmux and installs the actual
-plugins there too (~/.config/tmux/plugins/), not under ~/.tmux/plugins/.
-that's TPM's own doing, not something this repo manages — it's real
-downloaded plugin code, not dotfiles, so it stays out of git.
 
 ## adding a package
 
