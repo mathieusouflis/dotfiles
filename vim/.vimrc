@@ -61,10 +61,10 @@ endif
 
 " Plugins
 call plug#begin('~/.vim/plugged')
-  Plug 'git@github.com:version14/vim-theme.git'
+  Plug 'rose-pine/vim', { 'as': 'rose-pine' }
   Plug 'leafgarland/typescript-vim'
   Plug 'peitalin/vim-jsx-typescript'
 call plug#end()
 
 " Appliquer le thème
-colorscheme version14
+colorscheme rosepine
