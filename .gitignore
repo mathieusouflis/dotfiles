@@ -4,3 +4,5 @@ raycast
 fzf
 history.txt
 openspec
+*.swp
+*.swo
