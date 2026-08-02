@@ -11,17 +11,22 @@ each folder is a package, one dotfile per folder, flat, no nesting.
 	git/ignore           >  ~/.config/git/ignore
 	nvim/...             >  ~/.config/nvim/...
 	atuin/config.toml    >  ~/.config/atuin/config.toml
+	gh-dash/config.yml   >  ~/.config/gh-dash/config.yml
 	starship/starship.toml  >  ~/.config/starship.toml
 	zsh/.zshrc           >  ~/.zshrc
 	vim/.vimrc           >  ~/.vimrc
 
 each package needs its own target, since they don't all land in the same
-place. ghostty, git, nvim, and atuin each get their own folder under
-~/.config. starship's file sits right in ~/.config with no subfolder. zsh
-and vim have no XDG spot at all, so they target $HOME directly.
+place. ghostty, git, nvim, atuin, and gh-dash each get their own folder
+under ~/.config. starship's file sits right in ~/.config with no
+subfolder. zsh and vim have no XDG spot at all, so they target $HOME
+directly.
 
 atuin also needs `eval "$(atuin init zsh)"` in .zshrc (already there) to
 actually hook into the shell — the config.toml alone doesn't do that.
+
+gh-dash is a `gh` CLI extension, not a standalone install — it needs
+`gh extension install dlvhdr/gh-dash` once, separate from stow.
 
 vim-plug (the plugin manager .vimrc bootstraps) and the plugins it
 installs live at ~/.vim/autoload and ~/.vim/plugged — real downloaded
@@ -39,6 +44,7 @@ or to deploy just one package:
 	stow -t ~/.config/git git
 	stow -t ~/.config/nvim nvim
 	stow -t ~/.config/atuin atuin
+	stow -t ~/.config/gh-dash gh-dash
 	stow -t ~/.config starship
 	stow -t ~ zsh
 	stow -t ~ vim
