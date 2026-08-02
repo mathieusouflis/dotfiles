@@ -1,0 +1,34 @@
+# background
+#background = 0F0F11
+background-opacity = 0.60
+background-blur-radius = 20
+unfocused-split-opacity = 1
+unfocused-split-fill =
+
+# foreground
+foreground =
+
+# title bar
+macos-titlebar-style = tabs
+title = " "
+
+# App icon customization
+macos-icon = custom-style
+macos-icon-ghost-color = E6BF7A
+macos-icon-screen-color = 0F0F11
+macos-icon-frame = plastic
+
+# Window
+window-padding-x = 10
+window-padding-y = 0
+window-padding-balance = true
+window-padding-color = background
+resize-overlay = never
+mouse-hide-while-typing = true
+
+# Theme
+theme = "Rose Pine"
+
+# Font
+font-size = 16
+font-family = CommitMono2025
