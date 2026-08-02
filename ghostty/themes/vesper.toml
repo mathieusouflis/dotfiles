@@ -1,0 +1,22 @@
+name = "Vesper"
+
+[palette]
+background = "#101010"
+foreground = "#ffffff"
+black      = "#101010"
+red        = "#ff8080"
+green      = "#99ffe4"
+yellow     = "#ffc799"
+blue       = "#a0a0a0"
+magenta    = "#ffc799"
+cyan       = "#99ffe4"
+white      = "#ffffff"
+bright_black   = "#505050"
+bright_red     = "#ff8080"
+bright_green   = "#99ffe4"
+bright_yellow  = "#ffc799"
+bright_blue    = "#a0a0a0"
+bright_magenta = "#ffc799"
+bright_cyan    = "#99ffe4"
+bright_white   = "#ffffff"
+

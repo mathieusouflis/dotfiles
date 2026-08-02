@@ -1,0 +1,26 @@
+# Version14 Dark — Ghostty theme
+background = #08090A
+foreground = #F2F4F6
+
+cursor-color = #D2FF3A
+cursor-text = #08090A
+
+selection-background = #1A1E23
+selection-foreground = #F2F4F6
+
+palette = 0=#23262B
+palette = 1=#FF5C5C
+palette = 2=#4ADE80
+palette = 3=#FFB347
+palette = 4=#6FB1FF
+palette = 5=#B8E625
+palette = 6=#D2FF3A
+palette = 7=#9CA0A6
+palette = 8=#2E3238
+palette = 9=#FF5C5C
+palette = 10=#4ADE80
+palette = 11=#FFB347
+palette = 12=#6FB1FF
+palette = 13=#D2FF3A
+palette = 14=#D2FF3A
+palette = 15=#F2F4F6
