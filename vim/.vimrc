@@ -33,8 +33,8 @@ set tabstop=2
 set shiftwidth=2
 set softtabstop=2
 
-" Font for GUI Vim (buffer_font_family: Geist Mono, size 15)
-set guifont=Geist\ Mono:h15
+" Font for GUI Vim (buffer_font_family: Geist Mono, size 17)
+set guifont=Geist\ Mono:h17
 
 " Diff (diff_view_style: unified)
 set diffopt+=horizontal

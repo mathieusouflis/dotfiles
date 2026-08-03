@@ -1,4 +1,7 @@
 {
+  "markdown_preview_font_size": 17.0,
+  "agent_buffer_font_size": 17.0,
+  "agent_ui_font_size": 17.0,
   "markdown_preview_code_font_family": "Geist Mono",
   "markdown_preview_font_family": "Geist",
   "disable_ai": false,
@@ -123,11 +126,11 @@
     "font_features": null,
     "dock": "bottom",
     "button": true,
-    "font_size": 19
+    "font_size": 17.0
   },
   "base_keymap": "VSCode",
-  "ui_font_size": 19,
-  "buffer_font_size": 19,
+  "ui_font_size": 17.0,
+  "buffer_font_size": 17.0,
   "theme": {
     "mode": "dark",
     "light": "Version 14 Light",
