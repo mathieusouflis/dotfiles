@@ -67,10 +67,12 @@ endif
 
 " Plugins
 call plug#begin('~/.vim/plugged')
-  Plug 'rose-pine/vim', { 'as': 'rose-pine' }
+  Plug 'version14/vim-theme', { 'as': 'version14' }
   Plug 'leafgarland/typescript-vim'
   Plug 'peitalin/vim-jsx-typescript'
 call plug#end()
 
-" Appliquer le thème
-colorscheme rosepine
+" Appliquer le thème (pinned to dark -- without this, the colorscheme falls
+" back to &background's auto-detected value, which isn't reliably dark)
+let g:version14_style = 'dark'
+colorscheme version14
