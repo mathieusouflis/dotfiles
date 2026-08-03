@@ -6,22 +6,22 @@ my mac config, managed with stow.
 
 each folder is a package, one dotfile per folder, flat, no nesting.
 
-	ghostty/config       >  ~/.config/ghostty/config
-	ghostty/themes/...   >  ~/.config/ghostty/themes/...
-	git/config           >  ~/.config/git/config
-	git/ignore           >  ~/.config/git/ignore
-	nvim/...             >  ~/.config/nvim/...
-	atuin/config.toml    >  ~/.config/atuin/config.toml
-	gh-dash/config.yml   >  ~/.config/gh-dash/config.yml
-	starship/starship.toml  >  ~/.config/starship.toml
-	nix/nix.conf         >  ~/.config/nix/nix.conf
-	zed/settings.json    >  ~/.config/zed/settings.json
-	zed/keymap.json      >  ~/.config/zed/keymap.json
-	zed/tasks.json       >  ~/.config/zed/tasks.json
-	zed/AGENTS.md        >  ~/.config/zed/AGENTS.md
-	zed/themes/...       >  ~/.config/zed/themes/...
-	zsh/.zshrc           >  ~/.zshrc
-	vim/.vimrc           >  ~/.vimrc
+ ghostty/config       >  ~/.config/ghostty/config
+ ghostty/themes/...   >  ~/.config/ghostty/themes/...
+ git/config           >  ~/.config/git/config
+ git/ignore           >  ~/.config/git/ignore
+ nvim/...             >  ~/.config/nvim/...
+ atuin/config.toml    >  ~/.config/atuin/config.toml
+ atuin/themes/...     >  ~/.config/atuin/themes/...
+ gh-dash/config.yml   >  ~/.config/gh-dash/config.yml
+ starship/starship.toml  >  ~/.config/starship.toml
+ nix/nix.conf         >  ~/.config/nix/nix.conf
+ zed/settings.json    >  ~/.config/zed/settings.json
+ zed/keymap.json      >  ~/.config/zed/keymap.json
+ zed/tasks.json       >  ~/.config/zed/tasks.json
+ zed/AGENTS.md        >  ~/.config/zed/AGENTS.md
+ zsh/.zshrc           >  ~/.zshrc
+ vim/.vimrc           >  ~/.vimrc
 
 each package needs its own target, since they don't all land in the same
 place. ghostty, git, nvim, atuin, gh-dash, nix, and zed each get their
@@ -34,7 +34,29 @@ zed's package deliberately does not cover everything under
 ~/.config/zed. `prompts/` (an LMDB database, not a hand-authored file),
 `conversations/` (chat history), `settings_backup.json`, and any
 `keymap.json.*.bak` are generated or backup state, not real dotfiles,
-and stay untracked on the live machine.
+and stay untracked on the live machine. It also has no `themes/`
+folder. Zed's `"Version 14 Dark"`/`"Version 14 Light"` themes
+(referenced in `settings.json`) come from the
+[version14/zed-theme](https://github.com/version14/zed-theme)
+extension, installed through Zed itself, not a vendored file.
+
+### theming
+
+every themeable tool here runs the same [Version 14](https://github.com/version14)
+palette (Dark/Black/Light), one repo per tool:
+
+ ghostty   >  vendored copy in ghostty/themes/, from version14/ghostty-theme
+ starship  >  palette table pasted into starship.toml, from version14/starship-theme
+ gh-dash   >  theme.colors block pasted into config.yml, from version14/gh-dash-theme
+ atuin     >  vendored copy in atuin/themes/, from version14/atuin-theme
+ nvim      >  version14/nvim-theme plugin (see colorscheme.lua)
+ vim       >  version14/vim-theme plugin (see .vimrc)
+ zed       >  version14/zed-theme extension, installed through Zed itself
+
+`zed-theme` is the palette's canonical source (`themes/version14.json`);
+the rest are hand-ported from it, not generated. `nvim-theme`,
+`vim-theme`, and `vscode-theme` carry the same palette, so every repo
+in the suite is visually consistent.
 
 `nix-darwin/` is not a stow package. It holds the system flake
 (`flake.nix`, `flake.lock`) that `darwin-rebuild` reads directly from
@@ -52,7 +74,7 @@ code, not dotfiles, so they stay out of git same as tmux's plugins did.
 
 ## init
 
-	./init.sh
+ ./init.sh
 
 checks that Nix and Homebrew are installed (prints instructions and
 exits if not; it won't run their installers for you, since those need
@@ -67,22 +89,22 @@ target, without the prerequisite checks or the flake apply. useful on
 its own after editing a config, so it's also aliased as `restow` in
 `.zshrc`:
 
-	./stow.sh
-	# or, from anywhere, once the alias is stowed:
-	restow
+ ./stow.sh
+ # or, from anywhere, once the alias is stowed:
+ restow
 
 to stow packages by hand, or just one:
 
-	stow -t ~/.config/ghostty ghostty
-	stow -t ~/.config/git git
-	stow -t ~/.config/nvim nvim
-	stow -t ~/.config/atuin atuin
-	stow -t ~/.config/gh-dash gh-dash
-	stow -t ~/.config starship
-	stow -t ~/.config/nix nix
-	stow -t ~/.config/zed zed
-	stow -t ~ zsh
-	stow -t ~ vim
+ stow -t ~/.config/ghostty ghostty
+ stow -t ~/.config/git git
+ stow -t ~/.config/nvim nvim
+ stow -t ~/.config/atuin atuin
+ stow -t ~/.config/gh-dash gh-dash
+ stow -t ~/.config starship
+ stow -t ~/.config/nix nix
+ stow -t ~/.config/zed zed
+ stow -t ~ zsh
+ stow -t ~ vim
 
 add `-n -v` to any of those to preview what it would do first.
 
@@ -92,7 +114,7 @@ add `-n -v` to any of those to preview what it would do first.
 macOS defaults, shared across every Mac this flake is used on.
 `init.sh` applies it automatically. to do it by hand:
 
-	darwin-rebuild switch --flake ~/dotfiles/nix-darwin
+ darwin-rebuild switch --flake ~/dotfiles/nix-darwin
 
 run that again any time the flake changes. it's idempotent otherwise.
 `darwin-rebuild` auto-selects the `darwinConfigurations` entry matching
@@ -121,9 +143,9 @@ instead of going through `mkConfiguration`).
 nix-darwin flake, so it's available in any project without a per-project
 install. to use it in a project:
 
-	devenv init
-	echo "use devenv" >> .envrc
-	direnv allow
+ devenv init
+ echo "use devenv" >> .envrc
+ direnv allow
 
 that gives the project its own reproducible dev shell, defined in that
 project's `devenv.nix`, activated automatically by direnv on `cd`.
