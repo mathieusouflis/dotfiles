@@ -1,7 +1,8 @@
 "$schema" = 'https://starship.rs/config-schema.json'
 
 add_newline = false
-palette = "rose_pine"
+# Theme (all 3 variant palettes defined below, from github.com/version14/starship-theme)
+palette = "version14"
 command_timeout = 1000
 
 format = """
@@ -9,52 +10,80 @@ $directory$git_branch$git_status$cmd_duration
 $character"""
 
 [directory]
-style = "bold #ebbcba"
+style = "bold $accent"
 truncation_length = 3
 truncate_to_repo = false
 format = "[$path]($style) "
 
 [git_branch]
 symbol = " "
-style = "#c4a7e7"
+style = "$accent"
 truncation_length = 20
 truncation_symbol = "…"
 format = "[$symbol$branch(:$remote_branch)]($style) "
 
 [git_status]
-style = "#908caa"
-conflicted = "[~](#eb6f92)"
-ahead = "[⇡${count}](#c4a7e7)"
-behind = "[⇣${count}](#f6c177)"
-diverged = "[⇕⇡${ahead_count}⇣${behind_count}](#eb6f92)"
-untracked = "[?](#908caa)"
-stashed = "[*](#9ccfd8)"
-modified = "[!](#f6c177)"
-staged = "[+](#31748f)"
-renamed = "[»](#9ccfd8)"
-deleted = "[✘](#eb6f92)"
+style = "$fg_muted"
+conflicted = "[~]($red)"
+ahead = "[⇡${count}]($accent)"
+behind = "[⇣${count}]($yellow)"
+diverged = "[⇕⇡${ahead_count}⇣${behind_count}]($red)"
+untracked = "[?]($fg_muted)"
+stashed = "[*]($cyan)"
+modified = "[!]($yellow)"
+staged = "[+]($blue)"
+renamed = "[»]($cyan)"
+deleted = "[✘]($red)"
 format = "[$all_status$ahead_behind]($style) "
 
 [cmd_duration]
 min_time = 2_000
-style = "#908caa"
+style = "$fg_muted"
 format = "[󱎫 $duration]($style) "
 
 [character]
-success_symbol = "[❯](#31748f)"
-error_symbol = "[❯](#eb6f92)"
-vicmd_symbol = "[❮](#c4a7e7)"
+success_symbol = "[❯]($green)"
+error_symbol = "[❯]($red)"
+vicmd_symbol = "[❮]($accent)"
 
-[palettes.rose_pine]
-base = "#191724"
-surface = "#1f1d2e"
-overlay = "#26233a"
-muted = "#6e6a86"
-subtle = "#908caa"
-text = "#e0def4"
-love = "#eb6f92"
-gold = "#f6c177"
-rose = "#ebbcba"
-pine = "#31748f"
-foam = "#9ccfd8"
-iris = "#c4a7e7"
+[palettes.version14]
+bg = "#1A1E23"
+bg_elevated = "#14171B"
+fg = "#F2F4F6"
+fg_muted = "#6E737A"
+accent = "#B7A2FF"
+red = "#FF5C59"
+green = "#4BDE7F"
+yellow = "#FFA85E"
+blue = "#78AFFF"
+magenta = "#ED8EF3"
+cyan = "#B7A2FF"
+border = "#1A1E23"
+
+[palettes.version14-black]
+bg = "#0C0D0E"
+bg_elevated = "#000000"
+fg = "#F2F4F6"
+fg_muted = "#6E737A"
+accent = "#B7A2FF"
+red = "#FF5C59"
+green = "#4BDE7F"
+yellow = "#FFA85E"
+blue = "#78AFFF"
+magenta = "#ED8EF3"
+cyan = "#B7A2FF"
+border = "#0F0F10"
+
+[palettes.version14-light]
+bg = "#F4F5F6"
+bg_elevated = "#EBEDEF"
+fg = "#0D0F11"
+fg_muted = "#636870"
+accent = "#5F3BBB"
+red = "#B91A25"
+green = "#166534"
+yellow = "#8F4400"
+blue = "#0054CB"
+magenta = "#8C2293"
+cyan = "#5F3BBB"
+border = "#D2D4D7"
