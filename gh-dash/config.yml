@@ -38,21 +38,32 @@ defaults:
   view: prs
   refetchIntervalMinutes: 30
 
+# Theme (active variant pasted below; all variants vendored in themes/,
+# from github.com/version14/gh-dash-theme -- swap by pasting a different
+# themes/version14-*.yml file's contents in here)
 theme:
   colors:
     text:
-      primary: "#e0def4"
-      secondary: "#9ccfd8"
-      inverted: "#191724"
-      faint: "#6e6a86"
-      warning: "#f6c177"
-      success: "#9ccfd8"
+      primary: "#F2F4F6"
+      secondary: "#B7A2FF"
+      inverted: "#1A1E23"
+      faint: "#6E737A"
+      warning: "#FFA85E"
+      success: "#4BDE7F"
+      actor: "#B7A2FF"
     background:
-      selected: "#403d52"
+      selected: "#1A1E23"
     border:
-      primary: "#c4a7e7"
-      secondary: "#31748f"
-      faint: "#26233a"
+      primary: "#B7A2FF"
+      secondary: "#78AFFF"
+      faint: "#1A1E23"
+    icon:
+      newcontributor: "#ED8EF3"
+      contributor: "#FFA85E"
+      collaborator: "#4BDE7F"
+      member: "#78AFFF"
+      owner: "#B7A2FF"
+      unknownrole: "#6E737A"
   ui:
     sectionsShowCount: true
     table:

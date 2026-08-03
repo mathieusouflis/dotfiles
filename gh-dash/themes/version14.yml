@@ -1,0 +1,23 @@
+theme:
+  colors:
+    text:
+      primary: "#F2F4F6"
+      secondary: "#B7A2FF"
+      inverted: "#1A1E23"
+      faint: "#6E737A"
+      warning: "#FFA85E"
+      success: "#4BDE7F"
+      actor: "#B7A2FF"
+    background:
+      selected: "#1A1E23"
+    border:
+      primary: "#B7A2FF"
+      secondary: "#78AFFF"
+      faint: "#1A1E23"
+    icon:
+      newcontributor: "#ED8EF3"
+      contributor: "#FFA85E"
+      collaborator: "#4BDE7F"
+      member: "#78AFFF"
+      owner: "#B7A2FF"
+      unknownrole: "#6E737A"
