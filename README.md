@@ -5,7 +5,7 @@ my mac config, managed with stow.
 ## layout
 
 each folder is a package, one dotfile per folder, flat, no nesting.
-
+```
  ghostty/config       >  ~/.config/ghostty/config
  ghostty/themes/...   >  ~/.config/ghostty/themes/...
  git/config           >  ~/.config/git/config
@@ -22,7 +22,7 @@ each folder is a package, one dotfile per folder, flat, no nesting.
  zed/AGENTS.md        >  ~/.config/zed/AGENTS.md
  zsh/.zshrc           >  ~/.zshrc
  vim/.vimrc           >  ~/.vimrc
-
+```
 each package needs its own target, since they don't all land in the same
 place. ghostty, git, nvim, atuin, gh-dash, nix, and zed each get their
 own folder under ~/.config. starship's file sits right in ~/.config with
@@ -44,7 +44,7 @@ extension, installed through Zed itself, not a vendored file.
 
 every themeable tool here runs the same [Version 14](https://github.com/version14)
 palette (Dark/Black/Light), one repo per tool:
-
+```
  ghostty   >  vendored copy in ghostty/themes/, from version14/ghostty-theme
  starship  >  palette table pasted into starship.toml, from version14/starship-theme
  gh-dash   >  theme.colors block pasted into config.yml, from version14/gh-dash-theme
@@ -52,7 +52,7 @@ palette (Dark/Black/Light), one repo per tool:
  nvim      >  version14/nvim-theme plugin (see colorscheme.lua)
  vim       >  version14/vim-theme plugin (see .vimrc)
  zed       >  version14/zed-theme extension, installed through Zed itself
-
+```
 `zed-theme` is the palette's canonical source (`themes/version14.json`);
 the rest are hand-ported from it, not generated. `nvim-theme`,
 `vim-theme`, and `vscode-theme` carry the same palette, so every repo
@@ -73,9 +73,9 @@ installs live at ~/.vim/autoload and ~/.vim/plugged, real downloaded
 code, not dotfiles, so they stay out of git same as tmux's plugins did.
 
 ## init
-
+```bash
  ./init.sh
-
+```
 checks that Nix and Homebrew are installed (prints instructions and
 exits if not; it won't run their installers for you, since those need
 sudo), applies the `nix-darwin` flake (first-time bootstrap via
@@ -88,13 +88,13 @@ every step it takes is idempotent.
 target, without the prerequisite checks or the flake apply. useful on
 its own after editing a config, so it's also aliased as `restow` in
 `.zshrc`:
-
+```bash
  ./stow.sh
  # or, from anywhere, once the alias is stowed:
  restow
-
+```
 to stow packages by hand, or just one:
-
+```bash
  stow -t ~/.config/ghostty ghostty
  stow -t ~/.config/git git
  stow -t ~/.config/nvim nvim
@@ -105,7 +105,7 @@ to stow packages by hand, or just one:
  stow -t ~/.config/zed zed
  stow -t ~ zsh
  stow -t ~ vim
-
+```
 add `-n -v` to any of those to preview what it would do first.
 
 ## nix-darwin
@@ -142,11 +142,11 @@ instead of going through `mkConfiguration`).
 `devenv` (github.com/cachix/devenv) is installed system-wide by the
 nix-darwin flake, so it's available in any project without a per-project
 install. to use it in a project:
-
+```bash
  devenv init
  echo "use devenv" >> .envrc
  direnv allow
-
+```
 that gives the project its own reproducible dev shell, defined in that
 project's `devenv.nix`, activated automatically by direnv on `cd`.
 
