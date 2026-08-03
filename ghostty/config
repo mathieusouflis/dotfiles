@@ -11,10 +11,10 @@ window-padding-balance = true
 window-padding-color = background
 mouse-hide-while-typing = true
 macos-option-as-alt = true
-window-decoration = false
+window-decoration = true
 
-# Theme (vendored from github.com/rose-pine/ghostty into themes/)
-theme = rose-pine
+# Theme (vendored from github.com/version14/ghostty-theme into themes/)
+theme = version14
 
 # Font
 font-size = 16
