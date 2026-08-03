@@ -1,0 +1,19 @@
+[theme]
+name = "version14"
+
+[colors]
+AlertInfo = "#78AFFF"
+AlertWarn = "#FFA85E"
+AlertError = "#FF5C59"
+Annotation = "#6E737A"
+Base = "#F2F4F6"
+Guidance = "#6E737A"
+Important = "#B7A2FF"
+Title = "#B7A2FF"
+Muted = "#6E737A"
+SyntaxCommand = "#78AFFF"
+SyntaxFlag = "#ED8EF3"
+SyntaxString = "#4BDE7F"
+SyntaxVariable = "#B7A2FF"
+SyntaxOperator = "#F2F4F6"
+SyntaxComment = "#6E737A"

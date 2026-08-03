@@ -11,3 +11,7 @@ show_preview = true
 
 ## Defaults to true. If enabled, upon hitting enter Atuin will immediately execute the command. Press tab to return to the shell and edit.
 enter_accept = true
+
+# Theme (all variants vendored in themes/, from github.com/version14/atuin-theme)
+[theme]
+name = "version14"
