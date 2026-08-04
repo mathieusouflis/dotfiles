@@ -17,7 +17,7 @@
       "MacBook-Pro-de-Mathieu"
     ];
 
-    mkConfiguration = hostName: { pkgs, ... }: {
+    mkConfiguration = hostName: { pkgs, config, ... }: {
         nix.settings.experimental-features = "nix-command flakes";
         # Determinate Nix manages the Nix daemon on this machine, so
         # nix-darwin should not also try to.
@@ -72,12 +72,56 @@
           "docker-desktop"
           "figma"
           "obsidian"
+          "raycast"
           "spotify"
           "zed"
         ];
         homebrew.brews = [
           "thefuck"
         ];
+
+        # Raycast keeps almost everything it knows (per-extension hotkeys,
+        # aliases, quicklinks, snippets, fallbacks, window-management
+        # shortcuts, AI presets, theme) in an encrypted SQLite database at
+        # ~/Library/Application Support/com.raycast.macos/raycast-enc.sqlite.
+        # None of that is reachable from here. What follows is the whole of
+        # what Raycast exposes as plain preferences, which is why there is no
+        # `raycast/` stow package: there is no file to stow.
+        system.defaults.CustomUserPreferences."com.raycast.macos" = {
+          raycastGlobalHotkey = "Command-49";   # <Modifiers>-<keycode>, 49 = Space
+          raycastPreferredWindowMode = "compact";
+          raycastShouldFollowSystemAppearance = true;
+          useHyperKeyIcon = false;
+          faviconProvider = "legacy";
+          emojiPicker_skinTone = "standard";
+          # Ecosia has no Homebrew cask, so unlike every other app here the
+          # flake cannot install it. See "raycast" in the README.
+          preferredGoogleBrowser = "org.ecosia.browser";
+
+          showGettingStartedLink = false;
+          onboarding_showTasksProgress = false;
+          teamsWalkthrough_showsWalkthrough = false;
+          ios_showAnnouncement = false;
+          raycastFocus_raycastFocusHasStatusItem = false;
+        };
+
+        # Raycast caches its preferences in memory and rewrites the whole
+        # plist on quit, so anything written underneath a running Raycast is
+        # silently reverted the next time it exits. Activation order is
+        # preActivation -> extraActivation -> userDefaults -> postActivation,
+        # so quitting here means the writes above always win.
+        #
+        # Deliberately no matching relaunch in postActivation. Activation runs
+        # under sudo, and `launchctl asuser ... sudo --user=... open -a Raycast`
+        # yields a process with no GUI login session, so Raycast cannot reach
+        # the login keychain, fails to read the `database_key` item that
+        # decrypts raycast-enc.sqlite, and offers to reset itself to defaults.
+        # nix-darwin uses that same asuser/sudo pattern for `defaults write`,
+        # which never touches the keychain; launching a GUI app is not the
+        # same thing. Relaunch Raycast by hand instead.
+        system.activationScripts.extraActivation.text = ''
+          killall -qu ${config.system.primaryUser} Raycast || true
+        '';
 
         system.configurationRevision = self.rev or self.dirtyRev or null;
         system.stateVersion = 6;

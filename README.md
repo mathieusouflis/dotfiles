@@ -62,6 +62,15 @@ in the suite is visually consistent.
 (`flake.nix`, `flake.lock`) that `darwin-rebuild` reads directly from
 its path, not something symlinked into `$HOME`. See "nix-darwin" below.
 
+raycast is not a stow package either, and can't be. Raycast has no
+config file: everything it knows lives in an encrypted SQLite database
+(`~/Library/Application Support/com.raycast.macos/raycast-enc.sqlite`),
+and the handful of settings it does expose are plain macOS defaults, so
+they're declared in the flake instead. `~/.config/raycast/` exists but
+is Raycast's own runtime state, downloaded extension bundles plus a
+`config.json` holding an auth token, so it stays untracked. See
+"raycast" below.
+
 atuin also needs `eval "$(atuin init zsh)"` in .zshrc (already there) to
 actually hook into the shell. the config.toml alone doesn't do that.
 
@@ -154,6 +163,81 @@ hostname to that list. nothing else needs to change unless that machine
 needs different packages or is Intel rather than Apple Silicon (give it
 its own entry with a different `nixpkgs.hostPlatform` in that case,
 instead of going through `mkConfiguration`).
+
+## raycast
+
+Raycast has no dotfile. Per-extension hotkeys, aliases, quicklinks,
+snippets, fallback commands, window-management shortcuts, AI presets,
+and the theme all live in an encrypted SQLite database
+(`~/Library/Application Support/com.raycast.macos/raycast-enc.sqlite`),
+which nothing here can read or write. The only way to move them between
+Macs is Raycast's own Settings > Advanced > Export, which produces an
+opaque `.rayconfig` blob; that's a backup, not config, so it isn't kept
+in this repo.
+
+What Raycast *does* expose is a small set of plain macOS defaults, and
+those are declared in the flake under
+`system.defaults.CustomUserPreferences."com.raycast.macos"`: the global
+hotkey, window mode, appearance-follows-system, hyperkey icon, favicon
+provider, emoji skin tone, preferred browser, and a few first-run
+prompts. Deliberately left out are window/menu-bar geometry
+(`mainWindowPositionCache`, `NSStatusItem Preferred Position *`),
+AppKit-generated status-item indices (`NSStatusItem Visible Item-N`,
+which shift when Raycast updates or extensions change), and anything
+identity- or telemetry-shaped (`raycastAnonymousId`, `store_*`,
+`raycastAI_*`, migration flags).
+
+Values there are booleans, not `0`/`1`. `defaults read` prints both the
+same way, so check with `defaults read-type com.raycast.macos <key>`
+before adding a key, and write `true`/`false` in the flake.
+
+Raycast caches its preferences in memory and rewrites the whole plist
+when it quits, so anything written underneath a running Raycast gets
+silently reverted on its next exit. The flake works around this by
+quitting Raycast in `extraActivation`, which runs before the
+`defaults write`s. This means **every `darwin-rebuild switch` quits
+Raycast**, not just the ones that touch these settings; reopen it
+yourself afterwards.
+
+There is deliberately no matching relaunch in `postActivation`, and
+adding one is a trap. Activation runs under sudo, so the obvious
+`launchctl asuser ... sudo --user=... open -a Raycast` starts Raycast
+with no GUI login session. It then can't reach the login keychain,
+can't read the `Raycast`/`database_key` item that decrypts
+`raycast-enc.sqlite`, and puts up "A keychain cannot be found to store
+'database_key'" offering Cancel or Reset To Defaults. **Reset To
+Defaults wipes the database** and every hotkey, quicklink and snippet
+in it. If you ever see that dialog, cancel it, quit Raycast, and
+relaunch it normally from Finder or Spotlight; a normal GUI launch has
+the keychain session and reopens the real database. Note nix-darwin
+itself uses that asuser/sudo pattern for `defaults write`, which never
+touches the keychain, so it is not evidence the pattern is safe for
+launching apps.
+
+three things the flake can't do for you, all one-time per Mac:
+
+ - **the first install needs the app gone.** `brew` refuses to install
+   a cask over an app it didn't install, and nix-darwin's cask options
+   have no `adopt`. `rm -rf /Applications/Raycast.app` before the first
+   `darwin-rebuild switch`. Settings and extensions survive (they're in
+   `~/Library` and `~/.config/raycast`), but macOS will re-prompt for
+   Accessibility, Screen Recording, and Automation, and the login item
+   needs re-adding.
+ - **Spotlight owns Cmd+Space on a fresh Mac.** The flake sets
+   `raycastGlobalHotkey` but can't unbind Spotlight: that lives in
+   `com.apple.symbolichotkeys`, and `CustomUserPreferences` writes one
+   whole value per top-level key, so declaring it would replace the
+   entire `AppleSymbolicHotKeys` dict and wipe every other system
+   shortcut. Raycast's first-run flow offers to take Cmd+Space over;
+   accept it. By hand: System Settings > Keyboard > Keyboard Shortcuts
+   > Spotlight, uncheck "Show Spotlight search".
+ - **Ecosia has no Homebrew cask.** `preferredGoogleBrowser` points at
+   `org.ecosia.browser`, so install Ecosia Browser from
+   ecosia.org/browser. Until then that key names a missing app and
+   Raycast falls back to the system default browser. Note this key only
+   picks which browser opens a search, not which search engine Raycast
+   uses; the search engine is a quicklink in the SQLite database and
+   has to be set in Raycast itself.
 
 ## devenv
 
