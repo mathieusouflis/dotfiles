@@ -1,20 +1,50 @@
-# ~/.zprofile only loads for login shells, so set this up here too
-# for non-login shells (thefuck and fzf below both depend on it).
+# ~/.zprofile only loads for login shells, so brew goes on PATH here too.
+# thefuck and fzf below both depend on it.
 if [ -x /opt/homebrew/bin/brew ]; then
   eval "$(/opt/homebrew/bin/brew shellenv)"
 elif [ -x /usr/local/bin/brew ]; then
   eval "$(/usr/local/bin/brew shellenv)"
 fi
 
-export ZSH="$HOME/.oh-my-zsh"
-ZSH_THEME=""
-plugins=(git zsh-autosuggestions zsh-syntax-highlighting)
+### OPTIONS ###
+# keep this explicit: without it zsh reads $EDITOR, sees nvim, and starts in vi mode
+bindkey -e
+setopt auto_cd interactive_comments prompt_subst
 
-source $ZSH/oh-my-zsh.sh
+### HISTORY ###
+HISTFILE="$HOME/.zsh_history"
+HISTSIZE=50000
+SAVEHIST=50000
+setopt extended_history hist_expire_dups_first hist_ignore_dups
+setopt hist_ignore_space hist_verify share_history
 
+### COLORS ###
+autoload -U colors && colors
+export LSCOLORS="Gxfxcxdxbxegedabagacad"
+export LS_COLORS="di=1;36:ln=35:so=32:pi=33:ex=31:bd=34;46:cd=34;43:su=30;41:sg=30;46:tw=30;42:ow=30;43"
+
+### COMPLETION ###
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
+zstyle ':completion:*' menu select
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
+# rebuild the dump once a day, otherwise -C reuses it and skips the slow audit
+autoload -Uz compinit
+zmodload -F zsh/stat b:zstat
+zmodload zsh/datetime
+_zcompdump="$HOME/.zcompdump"
+if [[ -f "$_zcompdump" ]] && (( EPOCHSECONDS - $(zstat +mtime "$_zcompdump") < 86400 )); then
+  compinit -C -d "$_zcompdump"
+else
+  compinit -d "$_zcompdump"
+fi
+unset _zcompdump
+autoload -U +X bashcompinit && bashcompinit
 source <(kubectl completion zsh)
+complete -o nospace -C /opt/homebrew/bin/terraform terraform
 
+### KEYBINDS ###
+# autosuggestions first: it defines the autosuggest-* widgets bound below
+source /run/current-system/sw/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 bindkey '^w' autosuggest-execute
 bindkey '^e' autosuggest-accept
 bindkey '^u' autosuggest-toggle
@@ -23,38 +53,53 @@ bindkey '^k' up-line-or-search
 bindkey '^j' down-line-or-search
 bindkey jj vi-cmd-mode
 
+### ENV ###
 export LANG=en_US.UTF-8
 export EDITOR=/opt/homebrew/bin/nvim
-
-export PATH="$PATH:/Users/mathieusouflis/.local/bin"
-
-export NVM_DIR="$HOME/.nvm"
-[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"
-[ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"
-
-export PATH="/Users/mathieusouflis/.codeium/windsurf/bin:$PATH"
-
-# ATUIN
-eval "$(atuin init zsh)"
-
-# DIRENV
 export DIRENV_LOG_FORMAT=""
-eval "$(direnv hook zsh)"
-[ -s "/Users/mathieusouflis/.jabba/jabba.sh" ] && source "/Users/mathieusouflis/.jabba/jabba.sh"
+export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git/*"'
+
+export PATH="$PATH:$HOME/.local/bin"
+export PATH="$HOME/.codeium/windsurf/bin:$PATH"
+export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
+
+# .NET
+export DOTNET_ROOT="$HOME/.dotnet"
+export PATH="$HOME/.dotnet:$PATH"
+
+# Go
+export PATH="$PATH:$HOME/go/bin"
+
+# Luau LSP
+export PATH="$HOME/Library/Application Support/Zed/extensions/work/luau/luau-lsp-binaries/luau-lsp-1.63.0/:$PATH"
 
 # pnpm
-export PNPM_HOME="/Users/mathieusouflis/Library/pnpm"
+export PNPM_HOME="$HOME/Library/pnpm"
 case ":$PATH:" in
   *":$PNPM_HOME:"*) ;;
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 
-alias i3lock="pmset displaysleepnow"
-alias gsw='git switch'
-alias gswc='git switch -c'
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
 
-# Dotfiles
+# jabba
+[ -s "$HOME/.jabba/jabba.sh" ] && source "$HOME/.jabba/jabba.sh"
+
+### ALIASES ###
+alias cl='clear'
+alias grep='rg'
+alias i3lock="pmset displaysleepnow"
 alias restow="~/dotfiles/stow.sh"
+
+# Eza
+alias ls='eza --icons --git'
+alias l='eza -la --icons --git'
+alias ll='eza -l --icons --git'
+alias la='eza -la --icons --git'
+alias lt='eza --tree --level=2 --icons --git'
 
 # Git
 alias gc="git commit -m"
@@ -65,6 +110,8 @@ alias gst="git status"
 alias glog="git log --graph --topo-order --pretty='%w(100,0,6)%C(yellow)%h%C(bold)%C(black)%d %C(cyan)%ar %C(green)%an%n%C(bold)%C(white)%s %N' --abbrev-commit"
 alias gdiff="git diff"
 alias gco="git checkout"
+alias gsw='git switch'
+alias gswc='git switch -c'
 alias gb='git branch'
 alias gba='git branch -a'
 alias gadd='git add'
@@ -80,21 +127,6 @@ alias dpa="docker ps -a"
 alias dl="docker ps -l -q"
 alias dx="docker exec -it"
 
-# Dirs
-alias ..="cd .."
-alias ...="cd ../.."
-alias ....="cd ../../.."
-alias .....="cd ../../../.."
-alias ......="cd ../../../../.."
-
-# Eza
-alias ls='eza --icons --git'
-alias ll='eza -l --icons --git'
-alias la='eza -la --icons --git'
-alias lt='eza --tree --level=2 --icons --git'
-
-alias cl='clear'
-
 # K8S
 alias k="kubectl"
 alias ka="kubectl apply -f"
@@ -107,49 +139,35 @@ alias kl="kubectl logs -f"
 alias ke="kubectl exec -it"
 alias kcns='kubectl config set-context --current --namespace'
 
-export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
-
-# .NET
-export DOTNET_ROOT="$HOME/.dotnet"
-export PATH="$HOME/.dotnet:$PATH"
-
-# GOPLS
-export PATH="$PATH:$HOME/go/bin"
-export PATH="$HOME/Library/Application Support/Zed/extensions/work/luau/luau-lsp-binaries/luau-lsp-1.63.0/:$PATH"
-
-eval $(thefuck --alias)
-
-# bun
-[ -s "/Users/mathieusouflis/.bun/_bun" ] && source "/Users/mathieusouflis/.bun/_bun"
-export BUN_INSTALL="$HOME/.bun"
-export PATH="$BUN_INSTALL/bin:$PATH"
-
-autoload -U +X bashcompinit && bashcompinit
-complete -o nospace -C /opt/homebrew/bin/terraform terraform
+# Dirs
+alias ..="cd .."
+alias ...="cd ../.."
+alias ....="cd ../../.."
+alias .....="cd ../../../.."
+alias ......="cd ../../../../.."
 
 ### FZF ###
 [ -f "$(brew --prefix fzf)/shell/completion.zsh" ] && source "$(brew --prefix fzf)/shell/completion.zsh" 2>/dev/null
 [ -f "$(brew --prefix fzf)/shell/key-bindings.zsh" ] && source "$(brew --prefix fzf)/shell/key-bindings.zsh" 2>/dev/null
-export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git/*"'
 
-### RIPGREP ###
-alias grep='rg'
-
-# navigation
-fcd() { cd "$(find . -type d -not -path '*/.*' | fzf)" && ls -la }
+### NAVIGATION ###
+cx() { cd "$@" && l }
+fcd() { cd "$(find . -type d -not -path '*/.*' | fzf)" && l }
 f() { echo "$(find . -type f -not -path '*/.*' | fzf)" | pbcopy }
 fv() { nvim "$(find . -type f -not -path '*/.*' | fzf)" }
 
-# Vite+
-. "$HOME/.vite-plus/env"
-
-eval "$(starship init zsh)"
-export STARSHIP_CONFIG=~/.config/starship/starship.toml
-
-# opam
-[[ ! -r '/Users/mathieusouflis/.opam/opam-init/init.zsh' ]] || source '/Users/mathieusouflis/.opam/opam-init/init.zsh' > /dev/null 2> /dev/null
-
-# Nix
+### NIX ###
 if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then
   . '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
 fi
+
+### INIT ###
+eval $(thefuck --alias)
+export STARSHIP_CONFIG=~/.config/starship/starship.toml
+eval "$(starship init zsh)"
+eval "$(zoxide init zsh)"
+eval "$(atuin init zsh)"
+eval "$(direnv hook zsh)"
+
+# must stay last: it only highlights what's already defined above it
+source /run/current-system/sw/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh

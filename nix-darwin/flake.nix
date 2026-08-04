@@ -43,13 +43,25 @@
           pkgs.fzf
           pkgs.starship
           pkgs.atuin
+          pkgs.zoxide
           pkgs.stow
+          # sourced by .zshrc from share/, replacing what oh-my-zsh loaded
+          pkgs.zsh-autosuggestions
+          pkgs.zsh-syntax-highlighting
           pkgs.devenv
           pkgs.jq
           pkgs.pnpm
           pkgs.nodejs
           pkgs.yarn
           pkgs.bun
+        ];
+
+        # systemPackages only links a fixed set of subpaths into
+        # /run/current-system/sw, and share/zsh-* is not one of them, so
+        # .zshrc's two `source` lines would hit a missing file without this.
+        environment.pathsToLink = [
+          "/share/zsh-autosuggestions"
+          "/share/zsh-syntax-highlighting"
         ];
 
         homebrew.enable = true;

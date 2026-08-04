@@ -72,6 +72,24 @@ vim-plug (the plugin manager .vimrc bootstraps) and the plugins it
 installs live at ~/.vim/autoload and ~/.vim/plugged, real downloaded
 code, not dotfiles, so they stay out of git same as tmux's plugins did.
 
+zsh runs no framework. `zsh-autosuggestions` and `zsh-syntax-highlighting`
+are installed by the nix-darwin flake and sourced straight out of
+`/run/current-system/sw/share/` in .zshrc, so `darwin-rebuild` is what
+puts them there, not a clone under `~`.
+
+.zshrc is grouped into `### SECTION ###` blocks and three of them are
+order-sensitive, so keep them where they are: `bindkey -e` under OPTIONS
+(without it zsh reads `$EDITOR`, sees nvim, and starts in vi mode),
+autosuggestions above the `^w`/`^e`/`^u` bindkeys that use its widgets,
+and syntax-highlighting on the very last line, since it only highlights
+what's already defined above it. COLORS sits above COMPLETION because
+the completion menu's `list-colors` is derived from `$LS_COLORS`.
+
+the COLORS block and the `l` alias are hand-written replacements for
+things oh-my-zsh's `lib/` used to define implicitly (`LS_COLORS`,
+`LSCOLORS`, `autoload -U colors`, and `alias l='ls -lah'`). eza reads
+`$LS_COLORS`, so dropping it silently changed every `ls`.
+
 ## init
 ```bash
  ./init.sh
