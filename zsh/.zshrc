@@ -19,6 +19,8 @@ setopt extended_history hist_expire_dups_first hist_ignore_dups
 setopt hist_ignore_space hist_verify share_history
 
 ### COLORS ###
+# eza (the ls/l aliases below, in ALIASES) reads $LS_COLORS, so it's set
+# by hand here rather than left to a default.
 autoload -U colors && colors
 export LSCOLORS="Gxfxcxdxbxegedabagacad"
 export LS_COLORS="di=1;36:ln=35:so=32:pi=33:ex=31:bd=34;46:cd=34;43:su=30;41:sg=30;46:tw=30;42:ow=30;43"

@@ -45,7 +45,7 @@
           pkgs.atuin
           pkgs.zoxide
           pkgs.stow
-          # sourced by .zshrc from share/, replacing what oh-my-zsh loaded
+          # sourced by .zshrc from share/ (see pathsToLink below)
           pkgs.zsh-autosuggestions
           pkgs.zsh-syntax-highlighting
           pkgs.devenv

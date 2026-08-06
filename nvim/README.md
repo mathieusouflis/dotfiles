@@ -1,4 +1,6 @@
-# 💤 LazyVim
+# nvim
 
-A starter template for [LazyVim](https://github.com/LazyVim/LazyVim).
-Refer to the [documentation](https://lazyvim.github.io/installation) to get started.
+Neovim config, built on [LazyVim](https://github.com/LazyVim/LazyVim).
+The real customization is in `lua/plugins/` (colorscheme, formatting,
+go/opencode setup) and `lazyvim.json`'s extras list -- see LazyVim's
+own docs for how the base layer works.
