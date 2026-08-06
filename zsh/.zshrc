@@ -59,18 +59,10 @@ export DIRENV_LOG_FORMAT=""
 export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git/*"'
 
 export PATH="$PATH:$HOME/.local/bin"
-export PATH="$HOME/.codeium/windsurf/bin:$PATH"
 export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
-
-# .NET
-export DOTNET_ROOT="$HOME/.dotnet"
-export PATH="$HOME/.dotnet:$PATH"
 
 # Go
 export PATH="$PATH:$HOME/go/bin"
-
-# Luau LSP
-export PATH="$HOME/Library/Application Support/Zed/extensions/work/luau/luau-lsp-binaries/luau-lsp-1.63.0/:$PATH"
 
 # pnpm
 export PNPM_HOME="$HOME/Library/pnpm"
