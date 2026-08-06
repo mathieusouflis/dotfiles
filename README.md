@@ -231,13 +231,25 @@ three things the flake can't do for you, all one-time per Mac:
    shortcut. Raycast's first-run flow offers to take Cmd+Space over;
    accept it. By hand: System Settings > Keyboard > Keyboard Shortcuts
    > Spotlight, uncheck "Show Spotlight search".
- - **Ecosia has no Homebrew cask.** `preferredGoogleBrowser` points at
-   `org.ecosia.browser`, so install Ecosia Browser from
-   ecosia.org/browser. Until then that key names a missing app and
-   Raycast falls back to the system default browser. Note this key only
-   picks which browser opens a search, not which search engine Raycast
-   uses; the search engine is a quicklink in the SQLite database and
-   has to be set in Raycast itself.
+ - **`preferredGoogleBrowser` only picks which browser opens a Raycast
+   search**, not which search engine Raycast uses; the search engine is
+   a quicklink in the SQLite database and has to be set in Raycast
+   itself. It's currently `com.duckduckgo.macos.browser` — see
+   "default browser" below for the app itself.
+
+## default browser
+
+DuckDuckGo is installed via the `duckduckgo` Homebrew cask and set as
+the system default handler for `http`/`https` links by `duti`, run as
+the primary user from `postActivation` (after homebrew has installed
+the cask). Both `activationScripts.*.text` commands end in `|| true`
+because macOS increasingly gates default-handler changes behind a
+one-time interactive confirmation (a `-54` error from `duti` even on a
+change that otherwise takes effect), so a failure here shouldn't fail
+the whole `darwin-rebuild switch`. If DuckDuckGo isn't actually the
+default after a rebuild, set it by hand: System Settings > Desktop &
+Dock > Default web browser (or open DuckDuckGo.app once and accept its
+own "make default" prompt).
 
 ## devenv
 

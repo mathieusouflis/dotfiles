@@ -70,6 +70,7 @@
           "1password"
           "discord"
           "docker-desktop"
+          "duckduckgo"
           "figma"
           "obsidian"
           "raycast"
@@ -78,6 +79,9 @@
         ];
         homebrew.brews = [
           "thefuck"
+          # sets the macOS default handler for http(s) links; see
+          # postActivation below.
+          "duti"
         ];
 
         # Raycast keeps almost everything it knows (per-extension hotkeys,
@@ -94,9 +98,7 @@
           useHyperKeyIcon = false;
           faviconProvider = "legacy";
           emojiPicker_skinTone = "standard";
-          # Ecosia has no Homebrew cask, so unlike every other app here the
-          # flake cannot install it. See "raycast" in the README.
-          preferredGoogleBrowser = "org.ecosia.browser";
+          preferredGoogleBrowser = "com.duckduckgo.macos.browser";
 
           showGettingStartedLink = false;
           onboarding_showTasksProgress = false;
@@ -121,6 +123,20 @@
         # same thing. Relaunch Raycast by hand instead.
         system.activationScripts.extraActivation.text = ''
           killall -qu ${config.system.primaryUser} Raycast || true
+        '';
+
+        # duti (installed via homebrew.brews above) sets the macOS default
+        # handler for a URL scheme, which is what makes DuckDuckGo open when
+        # something clicks an http(s) link system-wide. This has to run
+        # after homebrew installs the duckduckgo cask, so it's postActivation
+        # (see the activation-order note above), and as the primary user
+        # rather than root since the handler lives in that user's
+        # LaunchServices database. Unlike Raycast, this doesn't touch the
+        # keychain or a GUI session, so the sudo -u pattern nix-darwin
+        # already uses for `defaults write` is safe here.
+        system.activationScripts.postActivation.text = ''
+          sudo -u ${config.system.primaryUser} /opt/homebrew/bin/duti -s com.duckduckgo.macos.browser http || true
+          sudo -u ${config.system.primaryUser} /opt/homebrew/bin/duti -s com.duckduckgo.macos.browser https || true
         '';
 
         system.configurationRevision = self.rev or self.dirtyRev or null;
