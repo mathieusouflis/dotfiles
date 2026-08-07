@@ -4,6 +4,9 @@ my mac config, managed with stow. each package folder has its own
 README with what it's for -- this file is an index, plus the rule for
 how that documentation stays honest.
 
+forking this for yourself? see [FORKING.md](FORKING.md) for what's
+hardcoded to me and needs to change first.
+
 ## the rule
 
 docs live at the point of decision, not in a wiki that rots. a
