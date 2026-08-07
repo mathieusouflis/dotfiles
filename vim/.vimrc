@@ -57,6 +57,89 @@ augroup vimrc_filetype
 augroup END
 
 
+" LSP (yegappan/lsp, plugged below)
+let g:lspServers = [
+    \ {
+    \   'name': 'clangd',
+    \   'filetype': ['c', 'cpp'],
+    \   'path': 'clangd',
+    \   'args': ['--background-index', '--clang-tidy', '--header-insertion=iwyu', '--completion-style=detailed', '--function-arg-placeholders']
+    \ },
+    \ {
+    \   'name': 'csharp-ls',
+    \   'filetype': ['cs'],
+    \   'path': 'csharp-ls',
+    \   'args': []
+    \ },
+    \ {
+    \   'name': 'lua_ls',
+    \   'filetype': ['lua'],
+    \   'path': 'lua-language-server',
+    \   'args': []
+    \ },
+    \ {
+    \   'name': 'marksman',
+    \   'filetype': ['markdown'],
+    \   'path': 'marksman',
+    \   'args': ['server']
+    \ },
+    \ {
+    \   'name': 'typescript-language-server',
+    \   'filetype': ['javascript', 'javascriptreact', 'typescript', 'typescriptreact'],
+    \   'path': 'typescript-language-server',
+    \   'args': ['--stdio']
+    \ },
+    \ {
+    \   'name': 'gopls',
+    \   'filetype': ['go', 'gomod', 'gowork', 'gotmpl'],
+    \   'path': 'gopls',
+    \   'args': []
+    \ },
+    \ {
+    \   'name': 'rust-analyzer',
+    \   'filetype': ['rust'],
+    \   'path': 'rust-analyzer',
+    \   'args': []
+    \ },
+    \ {
+    \   'name': 'terraform-ls',
+    \   'filetype': ['terraform', 'hcl'],
+    \   'path': 'terraform-ls',
+    \   'args': ['serve']
+    \ },
+    \ {
+    \   'name': 'docker-langserver',
+    \   'filetype': ['dockerfile'],
+    \   'path': 'docker-langserver',
+    \   'args': ['--stdio']
+    \ },
+    \ {
+    \   'name': 'yaml-language-server',
+    \   'filetype': ['yaml'],
+    \   'path': 'yaml-language-server',
+    \   'args': ['--stdio']
+    \ },
+    \ {
+    \   'name': 'ansible-language-server',
+    \   'filetype': ['yaml.ansible'],
+    \   'path': 'ansible-language-server',
+    \   'args': ['--stdio']
+    \ },
+    \ {
+    \   'name': 'helm_ls',
+    \   'filetype': ['helm'],
+    \   'path': 'helm_ls',
+    \   'args': ['serve']
+    \ },
+    \ {
+    \   'name': 'ocamllsp',
+    \   'filetype': ['ocaml', 'ocaml.interface', 'ocaml.menhir', 'dune'],
+    \   'path': 'ocamllsp',
+    \   'args': []
+    \ }
+    \ ]
+
+autocmd User LspSetup call g:LspAddServer(g:lspServers)
 
 " Bootstrap vim-plug if not installed
 if empty(glob('~/.vim/autoload/plug.vim'))
@@ -69,7 +152,18 @@ call plug#begin('~/.vim/plugged')
   Plug 'version14/vim-theme', { 'as': 'version14' }
   Plug 'leafgarland/typescript-vim'
   Plug 'peitalin/vim-jsx-typescript'
+  Plug 'yegappan/lsp'
+  Plug 'rust-lang/rust.vim'
+  Plug 'fatih/vim-go'
+  Plug 'pearofducks/ansible-vim'
+  Plug 'towolf/vim-helm'
+  Plug 'hashivim/vim-terraform'
+  Plug 'rgrinberg/vim-ocaml'
 call plug#end()
+
+" vim-go: syntax/indent only -- LSP is handled uniformly above via gopls
+let g:go_gopls_enabled = 0
+let g:go_fmt_autosave = 0
 
 " Apply the theme (pinned to dark -- without this, the colorscheme falls
 " back to &background's auto-detected value, which isn't reliably dark)
