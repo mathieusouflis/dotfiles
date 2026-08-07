@@ -153,6 +153,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'leafgarland/typescript-vim'
   Plug 'peitalin/vim-jsx-typescript'
   Plug 'yegappan/lsp'
+  Plug 'sgur/vim-editorconfig'
   Plug 'rust-lang/rust.vim'
   Plug 'fatih/vim-go'
   Plug 'pearofducks/ansible-vim'

@@ -34,6 +34,7 @@
         environment.systemPackages = [
           pkgs.vim
           pkgs.neovim
+          pkgs.nixfmt
           pkgs.direnv
           pkgs.git
           pkgs.gh
