@@ -51,3 +51,8 @@ require("lazy").setup({
     },
   },
 })
+
+require("neocord").setup({
+  client_id = "1190071236332638278",
+  logo = "https://avatars.githubusercontent.com/u/39670015?v=4",
+})
