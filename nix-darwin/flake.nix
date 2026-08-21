@@ -71,7 +71,9 @@
           "1password"
           "discord"
           "docker-desktop"
-          "duckduckgo"
+          # Chromium-based; see the postActivation/Raycast notes below for
+          # how it's wired up as the default browser.
+          "helium-browser"
           "figma"
           "obsidian"
           "raycast"
@@ -101,7 +103,7 @@
           useHyperKeyIcon = false;
           faviconProvider = "legacy";
           emojiPicker_skinTone = "standard";
-          preferredGoogleBrowser = "com.duckduckgo.macos.browser";
+          preferredGoogleBrowser = "net.imput.helium";
 
           showGettingStartedLink = false;
           onboarding_showTasksProgress = false;
@@ -129,18 +131,42 @@
         '';
 
         # duti (installed via homebrew.brews above) sets the macOS default
-        # handler for a URL scheme, which is what makes DuckDuckGo open when
+        # handler for a URL scheme, which is what makes Helium open when
         # something clicks an http(s) link system-wide. This has to run
-        # after homebrew installs the duckduckgo cask, so it's postActivation
-        # (see the activation-order note above), and as the primary user
-        # rather than root since the handler lives in that user's
-        # LaunchServices database. Unlike Raycast, this doesn't touch the
-        # keychain or a GUI session, so the sudo -u pattern nix-darwin
+        # after homebrew installs the helium-browser cask, so it's
+        # postActivation (see the activation-order note above), and as the
+        # primary user rather than root since the handler lives in that
+        # user's LaunchServices database. Unlike Raycast, this doesn't touch
+        # the keychain or a GUI session, so the sudo -u pattern nix-darwin
         # already uses for `defaults write` is safe here.
         system.activationScripts.postActivation.text = ''
-          sudo -u ${config.system.primaryUser} /opt/homebrew/bin/duti -s com.duckduckgo.macos.browser http || true
-          sudo -u ${config.system.primaryUser} /opt/homebrew/bin/duti -s com.duckduckgo.macos.browser https || true
+          sudo -u ${config.system.primaryUser} /opt/homebrew/bin/duti -s net.imput.helium http || true
+          sudo -u ${config.system.primaryUser} /opt/homebrew/bin/duti -s net.imput.helium https || true
         '';
+
+        # Helium's default search engine and its preinstalled extension set
+        # are NOT set here, on purpose. Both are only reachable, on macOS, as
+        # a Chromium enterprise policy (DefaultSearchProvider*,
+        # ExtensionInstallForcelist) delivered via a configuration profile —
+        # a plain `defaults write` like the Raycast block above is silently
+        # ignored by Chromium's policy loader, which only honors values from
+        # the "managed preferences" domain. And since macOS 11, `profiles
+        # install` no longer exists (`profiles tool no longer supports
+        # installs. Use System Settings Profiles to add configuration
+        # profiles.`), so there is no scriptable way to install a profile
+        # from an activation script either. That leaves a one-time manual
+        # setup after installing Helium:
+        #   1. Settings -> Search engine -> DuckDuckGo
+        #   2. Install these extensions from the Chrome Web Store:
+        #      - uBlock Origin       cjpalhdlnbpafiamejdnhcphjbkeiagm
+        #      - uBlock Origin Lite  ddkjiahejlhfcafbddmgiahcphecmpfh
+        #      - Vimium               dbepggeogbaibhgnhhndojpepiihcmeb
+        #      - Wappalyzer           gppongmhjkpfnbhagpmjfkannfbllamg
+        #      - JSON Formatter       bcjindcccaagfpapjjmafapmmgkkhgoa
+        #      - Octotree             bkhaagjahfmjljalopjnoealnfndnagc
+        #      - 1Password            aeblfdkhhhdcdjpifhhbdiojplfjncoa
+        #      - Unhook               khncfooichmfjbepaaaebmommgaepoid
+        #      https://chromewebstore.google.com/detail/<id> for each.
 
         system.configurationRevision = self.rev or self.dirtyRev or null;
         system.stateVersion = 6;

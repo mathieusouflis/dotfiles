@@ -86,22 +86,36 @@ Three things the flake can't do for you, all one-time per Mac:
 - **`preferredGoogleBrowser` only picks which browser opens a Raycast
   search**, not which search engine Raycast uses; the search engine is
   a quicklink in the SQLite database and has to be set in Raycast
-  itself. It's currently `com.duckduckgo.macos.browser` -- see
-  "default browser" below for the app itself.
+  itself. It's currently `net.imput.helium` -- see "default browser"
+  below for the app itself.
 
 ## default browser
 
-DuckDuckGo is installed via the `duckduckgo` Homebrew cask and set as
+- **if `Helium.app` already exists in `/Applications` (e.g. a manual
+  download), remove it first.** Unlike Raycast, `brew` doesn't refuse
+  outright -- it tries to *adopt* the existing bundle, which means
+  re-`chmod`-ing every file in it to fix permissions. If the app is
+  still quarantine-flagged (Gatekeeper hasn't run on it yet), that
+  chmod fails on `Contents/embedded.provisionprofile` with `Operation
+  not permitted` -- even as root -- and the whole cask install aborts
+  and purges. Fix: `rm -rf /Applications/Helium.app`, then re-run.
+
+Helium is installed via the `helium-browser` Homebrew cask and set as
 the system default handler for `http`/`https` links by `duti`, run as
 the primary user from `postActivation` (after homebrew has installed
 the cask). Both `activationScripts.*.text` commands end in `|| true`
 because macOS increasingly gates default-handler changes behind a
 one-time interactive confirmation (a `-54` error from `duti` even on a
 change that otherwise takes effect), so a failure here shouldn't fail
-the whole `darwin-rebuild switch`. If DuckDuckGo isn't actually the
+the whole `darwin-rebuild switch`. If Helium isn't actually the
 default after a rebuild, set it by hand: System Settings > Desktop &
-Dock > Default web browser (or open DuckDuckGo.app once and accept its
+Dock > Default web browser (or open Helium.app once and accept its
 own "make default" prompt).
+
+Helium's default search engine (DuckDuckGo) and its preinstalled
+extension set are not declared by the flake -- see the comment above
+`postActivation` in `flake.nix` for why (macOS removed scriptable
+profile installs) and the one-time manual steps to set them up.
 
 ## devenv
 
