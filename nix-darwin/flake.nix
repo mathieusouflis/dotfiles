@@ -80,6 +80,8 @@
         ];
         homebrew.brews = [
           "thefuck"
+          # Mac cleanup/uninstall/monitoring CLI (`mo`); not in nixpkgs.
+          "mole"
           # sets the macOS default handler for http(s) links; see
           # postActivation below.
           "duti"

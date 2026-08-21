@@ -133,6 +133,13 @@ alias kl="kubectl logs -f"
 alias ke="kubectl exec -it"
 alias kcns='kubectl config set-context --current --namespace'
 
+# Mole (mac cleanup/uninstall/monitoring, https://github.com/tw93/mole)
+alias mc="mo clean"
+alias mu="mo uninstall"
+alias mopt="mo optimize"
+alias ma="mo analyze"
+alias mst="mo status"
+
 # Dirs
 alias ..="cd .."
 alias ...="cd ../.."
