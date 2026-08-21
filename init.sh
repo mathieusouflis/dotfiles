@@ -61,4 +61,6 @@ else
   warn "gh not found, skipping gh-dash extension install"
 fi
 
+open /Applications/Raycast.app/
+
 log "Done. Remaining manual steps (Xcode CLT, per-project devenv setup) are in README.md."
