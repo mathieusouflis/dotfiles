@@ -62,5 +62,6 @@ else
 fi
 
 open /Applications/Raycast.app/
+open /Applications/AeroSpace.app/
 
 log "Done. Remaining manual steps (Xcode CLT, per-project devenv setup) are in README.md."

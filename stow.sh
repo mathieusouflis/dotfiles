@@ -16,5 +16,6 @@ stow -t ~/.config/nix nix
 stow -t ~/.config/zed zed
 stow -t ~ zsh
 stow -t ~ vim
+stow -t ~ aerospace
 
 echo "stowed"

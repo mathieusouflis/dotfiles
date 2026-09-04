@@ -1,0 +1,151 @@
+# ~/.aerospace.toml — i3-style config for AeroSpace
+# https://github.com/nikitabobko/AeroSpace
+#
+# Wire into nix-darwin, e.g.:
+#   home.file.".aerospace.toml".source = ./aerospace.toml;
+# or inline the TOML as a Nix string via home.file.".aerospace.toml".text = ''...'';
+
+config-version = 2
+
+# --- Startup ---
+
+start-at-login = true
+
+# AeroSpace disables normal macOS window animations while it's running.
+# Turn this off if you want to keep them (costs a bit of snappiness).
+enable-normalization-flatten-containers = true
+enable-normalization-opposite-orientation-for-nested-containers = true
+
+# Mouse follows focus, like most i3 setups
+on-focused-monitor-changed = ["move-mouse monitor-lazy-center"]
+
+# --- Layout ---
+
+default-root-container-layout = 'tiles'
+default-root-container-orientation = 'auto'
+
+# gaps, i3-esque
+[gaps]
+inner.horizontal = 8
+inner.vertical =   8
+outer.left =        8
+outer.right =       8
+outer.top =          8
+outer.bottom =        8
+
+# --- Workspace <-> monitor assignment ---
+# Uncomment / edit if you run multiple monitors and want fixed homes.
+# [workspace-to-monitor-force-assignment]
+# 1 = 'main'
+# 2 = 'main'
+# 9 = 'secondary'
+
+# --- App -> workspace rules ---
+# i3's `assign` equivalent. Add your own; these are just examples.
+# [[on-window-detected]]
+# if.app-id = 'com.mitchellh.ghostty'
+# run = 'move-node-to-workspace 1'
+#
+# [[on-window-detected]]
+# if.app-id = 'com.google.Chrome'
+# run = 'move-node-to-workspace 2'
+
+# Some macOS apps only work floating — force it here rather than fighting
+# them every time.
+[[on-window-detected]]
+if.app-id = 'com.apple.systempreferences'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-id = 'com.1password.1password'
+run = 'layout floating'
+
+# --- Main mode ---
+
+[mode.main.binding]
+
+# Focus (i3: mod+hjkl)
+alt-h = 'focus left'
+alt-j = 'focus down'
+alt-k = 'focus up'
+alt-l = 'focus right'
+
+# Move window (i3: mod+shift+hjkl)
+alt-shift-h = 'move left'
+alt-shift-j = 'move down'
+alt-shift-k = 'move up'
+alt-shift-l = 'move right'
+
+# Move workspace to another monitor (i3: mod+shift+ctrl+hjkl-ish)
+alt-shift-ctrl-h = 'move-workspace-to-monitor --wrap-around prev'
+alt-shift-ctrl-l = 'move-workspace-to-monitor --wrap-around next'
+
+# Join focused window with its neighbor to build a split (i3's split is a
+# no-op with enable-normalization-flatten-containers = true, so this is the
+# supported replacement — see the AeroSpace guide's normalization section).
+# Unlike i3's split, this acts on windows that already exist rather than
+# pre-declaring orientation for the next window you open.
+alt-v = 'join-with down'   # stack the focused window below its neighbor
+alt-b = 'join-with right'  # place the focused window beside its neighbor
+
+# Toggle layout between tiles/accordion (i3: mod+e / mod+w-ish)
+alt-e = 'layout tiles horizontal vertical'
+alt-w = 'layout accordion horizontal vertical'
+
+# Fullscreen (i3: mod+f)
+alt-f = 'fullscreen'
+
+# Floating toggle (i3: mod+shift+space)
+alt-shift-space = 'layout floating tiling'
+
+# Workspace switch (i3: mod+1..9,0)
+alt-1 = 'workspace 1'
+alt-2 = 'workspace 2'
+alt-3 = 'workspace 3'
+alt-4 = 'workspace 4'
+alt-5 = 'workspace 5'
+alt-6 = 'workspace 6'
+alt-7 = 'workspace 7'
+alt-8 = 'workspace 8'
+alt-9 = 'workspace 9'
+alt-0 = 'workspace 10'
+
+# Move window to workspace (i3: mod+shift+1..9,0)
+alt-shift-1 = 'move-node-to-workspace 1'
+alt-shift-2 = 'move-node-to-workspace 2'
+alt-shift-3 = 'move-node-to-workspace 3'
+alt-shift-4 = 'move-node-to-workspace 4'
+alt-shift-5 = 'move-node-to-workspace 5'
+alt-shift-6 = 'move-node-to-workspace 6'
+alt-shift-7 = 'move-node-to-workspace 7'
+alt-shift-8 = 'move-node-to-workspace 8'
+alt-shift-9 = 'move-node-to-workspace 9'
+alt-shift-0 = 'move-node-to-workspace 10'
+
+# Workspace back-and-forth (i3: mod+tab)
+alt-tab = 'workspace-back-and-forth'
+
+# Close window (i3: mod+shift+q)
+alt-shift-q = 'close'
+
+# Reload config — AeroSpace has no separate "restart", reload is enough
+alt-shift-c = 'reload-config'
+
+# Enter resize mode (i3: mod+r)
+alt-r = 'mode resize'
+
+# --- Launchers ---
+# Swap these for whatever you actually use; these assume Ghostty + Raycast.
+alt-enter = '''exec-and-forget open -na Ghostty'''
+alt-d = '''exec-and-forget open -a Raycast'''
+
+# --- Resize mode ---
+# i3-style: enter with mod+r, hjkl to resize, esc/enter to exit.
+
+[mode.resize.binding]
+h = 'resize width -50'
+j = 'resize height +50'
+k = 'resize height -50'
+l = 'resize width +50'
+enter = 'mode main'
+esc = 'mode main'

@@ -83,6 +83,7 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 
 ### ALIASES ###
 alias cl='clear'
+alias cls='clear'
 alias grep='rg'
 alias i3lock="pmset displaysleepnow"
 alias restow="~/dotfiles/stow.sh"
@@ -168,7 +169,15 @@ export STARSHIP_CONFIG=~/.config/starship.toml
 eval "$(starship init zsh)"
 eval "$(zoxide init zsh)"
 eval "$(atuin init zsh)"
-eval "$(direnv hook zsh)"
+eval "$(devenv hook zsh)"
 
 # must stay last: it only highlights what's already defined above it
 source /run/current-system/sw/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+# pnpm
+export PNPM_HOME="/Users/mathieusouflis/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME/bin:"*) ;;
+  *) export PATH="$PNPM_HOME/bin:$PATH" ;;
+esac
+# pnpm end

@@ -7,17 +7,22 @@
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = inputs@{ self, nix-darwin, nixpkgs }:
+  outputs =
+    inputs@{
+      self,
+      nix-darwin,
+      nixpkgs,
+    }:
 
-  let
-    # every Mac this flake applies to. Onboarding a new one is just
-    # adding its hostname here, unless it needs different packages or
-    # is Intel rather than Apple Silicon.
-    hostnames = [
-      "MacBook-Pro-de-Mathieu"
-    ];
+    let
+      # every Mac this flake applies to. Onboarding a new one is just
+      # adding its hostname here, unless it needs different packages or
+      # is Intel rather than Apple Silicon.
+      hostnames = [
+        "MacBook-Pro-de-Mathieu"
+      ];
 
-    mkConfiguration = hostName: { pkgs, config, ... }: {
+      mkConfiguration = hostName: { pkgs, config, ... }: {
         nix.settings.experimental-features = "nix-command flakes";
         # Determinate Nix manages the Nix daemon on this machine, so
         # nix-darwin should not also try to.
@@ -79,6 +84,10 @@
           "raycast"
           "spotify"
           "zed"
+          {
+            name = "nikitabobko/tap/aerospace";
+            trusted = true;
+          }
         ];
         homebrew.brews = [
           "thefuck"
@@ -97,7 +106,7 @@
         # what Raycast exposes as plain preferences, which is why there is no
         # `raycast/` stow package: there is no file to stow.
         system.defaults.CustomUserPreferences."com.raycast.macos" = {
-          raycastGlobalHotkey = "Command-49";   # <Modifiers>-<keycode>, 49 = Space
+          raycastGlobalHotkey = "Command-49"; # <Modifiers>-<keycode>, 49 = Space
           raycastPreferredWindowMode = "compact";
           raycastShouldFollowSystemAppearance = true;
           useHyperKeyIcon = false;
@@ -170,17 +179,18 @@
 
         system.configurationRevision = self.rev or self.dirtyRev or null;
         system.stateVersion = 6;
-    };
-  in
-  {
-    darwinConfigurations = nixpkgs.lib.genAttrs hostnames (hostName:
-      nix-darwin.lib.darwinSystem {
-        modules = [ (mkConfiguration hostName) ];
-      }
-    );
+      };
+    in
+    {
+      darwinConfigurations = nixpkgs.lib.genAttrs hostnames (
+        hostName:
+        nix-darwin.lib.darwinSystem {
+          modules = [ (mkConfiguration hostName) ];
+        }
+      );
 
-    # used by `nix eval .#darwinPackages.<name>.outPath` to check a
-    # package builds before adding it to systemPackages.
-    darwinPackages = (builtins.head (builtins.attrValues self.darwinConfigurations)).pkgs;
-  };
+      # used by `nix eval .#darwinPackages.<name>.outPath` to check a
+      # package builds before adding it to systemPackages.
+      darwinPackages = (builtins.head (builtins.attrValues self.darwinConfigurations)).pkgs;
+    };
 }
