@@ -17,5 +17,6 @@ stow -t ~/.config/zed zed
 stow -t ~ zsh
 stow -t ~ vim
 stow -t ~ aerospace
+stow -t ~/.config/karabiner karabiner --adopt
 
 echo "stowed"

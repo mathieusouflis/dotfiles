@@ -84,6 +84,7 @@
           "raycast"
           "spotify"
           "zed"
+          "karabiner-elements"
           {
             name = "nikitabobko/tap/aerospace";
             trusted = true;

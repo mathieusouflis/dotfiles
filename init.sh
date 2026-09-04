@@ -63,5 +63,6 @@ fi
 
 open /Applications/Raycast.app/
 open /Applications/AeroSpace.app/
+open /Applications/Karabiner-Elements.app/
 
 log "Done. Remaining manual steps (Xcode CLT, per-project devenv setup) are in README.md."
