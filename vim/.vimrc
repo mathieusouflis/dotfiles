@@ -6,6 +6,7 @@ if executable('rg')
   set grepformat=%f:%l:%c:%m
 endif
 
+set mouse=a
 set autoindent
 set autoread
 set hlsearch
