@@ -14,8 +14,10 @@ macos-option-as-alt = true
 window-decoration = true
 
 # Theme (vendored from github.com/version14/ghostty-theme into themes/)
-theme = version14
+# light:/dark: lets Ghostty follow the system appearance, the way Zed's
+# theme.mode already does -- without it the two diverge when macOS switches.
+theme = light:version14-light,dark:version14
 
 # Font
 font-size = 17
-font-family = GeistMono 
+font-family = GeistMono

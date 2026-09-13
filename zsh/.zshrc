@@ -21,9 +21,16 @@ setopt hist_ignore_space hist_verify share_history
 ### COLORS ###
 # eza (the ls/l aliases below, in ALIASES) reads $LS_COLORS, so it's set
 # by hand here rather than left to a default.
+#
+# su/sg/tw/ow are badges: dark text on a bright block. They used to spell that
+# as 30 (ANSI slot 0) over 4x, which only worked while slot 0 held a background
+# colour -- now that it is a real text colour those badges would drop to
+# 2.4-4.3:1, and in a light theme they would be worse still. 7 (reverse video)
+# says the same thing without naming a colour: the terminal's own background
+# becomes the foreground, so the badge stays legible in every variant.
 autoload -U colors && colors
 export LSCOLORS="Gxfxcxdxbxegedabagacad"
-export LS_COLORS="di=1;36:ln=35:so=32:pi=33:ex=31:bd=34;46:cd=34;43:su=30;41:sg=30;46:tw=30;42:ow=30;43"
+export LS_COLORS="di=1;36:ln=35:so=32:pi=33:ex=31:bd=34;46:cd=34;43:su=31;7:sg=36;7:tw=32;7:ow=33;7"
 
 ### COMPLETION ###
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
@@ -173,6 +180,14 @@ eval "$(devenv hook zsh)"
 
 # must stay last: it only highlights what's already defined above it
 source /run/current-system/sw/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+# comment defaults to fg=black,bold, i.e. ANSI slot 0 -- and Ghostty leaves
+# bold-color unset, so bold black stays on slot 0 instead of brightening to 8.
+# Slot 0 is the theme's dimmest text step; slot 8 is the one meant for
+# secondary text, so point comments there explicitly rather than inherit.
+# Set after the source above: the plugin declares the array and only fills
+# in its own default when the key is still empty.
+ZSH_HIGHLIGHT_STYLES[comment]='fg=8'
 
 # pnpm
 export PNPM_HOME="/Users/mathieusouflis/Library/pnpm"
