@@ -57,6 +57,15 @@ if.app-id = 'com.apple.systempreferences'
 run = 'layout floating'
 
 [[on-window-detected]]
+if.app-id = 'com.apple.facetime'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-id = 'com.apple.facetime'
+if.window-title-regex-substring = 'Call'
+run = 'layout floating'
+
+[[on-window-detected]]
 if.app-id = 'com.1password.1password'
 run = 'layout floating'
 
