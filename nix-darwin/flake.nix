@@ -60,6 +60,8 @@
           pkgs.nodejs
           pkgs.yarn
           pkgs.bun
+          pkgs.helix
+          pkgs.alacritty
         ];
 
         # systemPackages only links a fixed set of subpaths into

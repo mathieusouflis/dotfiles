@@ -1,0 +1,66 @@
+# Version 14
+# https://github.com/version14/ghostty-theme
+
+[font]
+size = 17
+
+[colors.primary]
+background = "#14171B"
+foreground = "#F2F4F6"
+dim_foreground = "#6E737A"
+bright_foreground = "#F2F4F6"
+
+[colors.cursor]
+text = "#14171B"
+cursor = "#B7A2FF"
+
+[colors.vi_mode_cursor]
+text = "#14171B"
+cursor = "#B7A2FF"
+
+[colors.search]
+matches = { foreground = "#14171B", background = "#FFA85E" }
+focused_match = { foreground = "#14171B", background = "#B7A2FF" }
+
+[colors.hints]
+start = { foreground = "#14171B", background = "#B7A2FF" }
+end = { foreground = "#14171B", background = "#78AFFF" }
+
+[colors.footer_bar]
+foreground = "#F2F4F6"
+background = "#1A1E23"
+
+[colors.selection]
+text = "#F2F4F6"
+background = "#343A43"
+
+[colors.normal]
+black = "#14171B"
+red = "#FF5C59"
+green = "#4BDE7F"
+yellow = "#FFA85E"
+blue = "#78AFFF"
+magenta = "#ED8EF3"
+cyan = "#B7A2FF"
+white = "#F2F4F6"
+
+[colors.bright]
+black = "#6E737A"
+red = "#FF7774"
+green = "#6BEF98"
+yellow = "#FFBD7D"
+blue = "#9AC3FF"
+magenta = "#F2A9F5"
+cyan = "#CBBEFF"
+white = "#FFFFFF"
+
+[colors.dim]
+black = "#0E1013"
+red = "#A83D3B"
+green = "#329B59"
+yellow = "#A66D3E"
+blue = "#5078AD"
+magenta = "#A45FA9"
+cyan = "#8173B5"
+white = "#A6AAB0"
+

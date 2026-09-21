@@ -1,0 +1,14 @@
+
+theme = "version14-dark"
+
+[editor]
+cursorline = true
+color-modes = true        # required for the violet/green/pink mode pill in the statusline
+bufferline = "multiple"
+
+[editor.indent-guides]
+render = true
+skip-levels = 1
+
+[editor.lsp]
+display-inlay-hints = true

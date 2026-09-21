@@ -1,0 +1,143 @@
+# Version 14 Dark — Helix theme
+# Palette from https://github.com/version14/zed-theme (and vim-theme).
+# Neutrals for text, selection, gutter and borders are derived, not documented upstream.
+
+# Syntax 
+"comment" = { fg = "comment" }
+"comment.block.documentation" = { fg = "comment", modifiers = ["italic"] }
+
+"keyword" = { fg = "keyword" }
+"keyword.control.import" = { fg = "keyword" }
+"keyword.directive" = { fg = "keyword" }
+"keyword.operator" = { fg = "keyword" }
+"operator" = { fg = "keyword" }
+"variable.builtin" = { fg = "keyword" }          # self / this
+
+"function" = { fg = "accent" }
+"function.builtin" = { fg = "accent" }
+"function.macro" = { fg = "keyword" }
+"function.special" = { fg = "accent" }
+"constructor" = { fg = "type" }
+
+"string" = { fg = "string" }
+"string.regexp" = { fg = "string" }
+"string.special" = { fg = "string" }
+"string.special.url" = { fg = "type", modifiers = ["underlined"] }
+"constant.character.escape" = { fg = "constant" }
+
+"type" = { fg = "type" }
+"type.builtin" = { fg = "type" }
+"type.enum.variant" = { fg = "constant" }
+"namespace" = { fg = "type" }
+"label" = { fg = "accent" }
+
+"constant" = { fg = "constant" }
+"constant.builtin" = { fg = "constant" }
+"constant.numeric" = { fg = "constant" }
+
+"variable" = { fg = "fg" }
+"variable.parameter" = { fg = "fg", modifiers = ["italic"] }
+"variable.other.member" = { fg = "fg" }
+"attribute" = { fg = "constant" }
+"tag" = { fg = "keyword" }
+"special" = { fg = "accent" }
+
+"punctuation" = { fg = "fg_dim" }
+"punctuation.delimiter" = { fg = "fg_dim" }
+"punctuation.bracket" = { fg = "fg_dim" }
+
+# Markup 
+"markup.heading" = { fg = "accent", modifiers = ["bold"] }
+"markup.bold" = { modifiers = ["bold"] }
+"markup.italic" = { modifiers = ["italic"] }
+"markup.strikethrough" = { modifiers = ["crossed_out"] }
+"markup.link.url" = { fg = "type", modifiers = ["underlined"] }
+"markup.link.text" = { fg = "accent" }
+"markup.list" = { fg = "keyword" }
+"markup.quote" = { fg = "comment", modifiers = ["italic"] }
+"markup.raw" = { fg = "string" }
+
+# Diff 
+"diff.plus" = { fg = "string" }
+"diff.minus" = { fg = "error" }
+"diff.delta" = { fg = "type" }
+
+# Diagnostics 
+"error" = { fg = "error" }
+"warning" = { fg = "constant" }
+"info" = { fg = "type" }
+"hint" = { fg = "comment" }
+"diagnostic.error" = { underline = { color = "error", style = "curl" } }
+"diagnostic.warning" = { underline = { color = "constant", style = "curl" } }
+"diagnostic.info" = { underline = { color = "type", style = "curl" } }
+"diagnostic.hint" = { underline = { color = "comment", style = "curl" } }
+"diagnostic.unnecessary" = { modifiers = ["dim"] }
+"diagnostic.deprecated" = { modifiers = ["crossed_out"] }
+
+# Editor UI 
+"ui.background" = { bg = "bg" }
+"ui.text" = { fg = "fg" }
+"ui.text.focus" = { bg = "sel" }
+"ui.text.inactive" = { fg = "comment" }
+"ui.text.info" = { fg = "fg" }
+
+"ui.cursor" = { fg = "on_accent", bg = "fg_dim" }
+"ui.cursor.primary.normal" = { fg = "on_accent", bg = "accent" }
+"ui.cursor.primary.insert" = { fg = "on_accent", bg = "keyword" }
+"ui.cursor.primary.select" = { fg = "on_accent", bg = "comment" }
+"ui.cursor.match" = { fg = "accent", bg = "sel_primary", modifiers = ["bold"] }
+
+"ui.selection" = { bg = "sel" }
+"ui.selection.primary" = { bg = "sel_primary" }
+"ui.highlight" = { bg = "sel" }
+"ui.cursorline.primary" = { bg = "cursorline" }
+"ui.cursorline.secondary" = { bg = "cursorline" }
+
+"ui.linenr" = { fg = "gutter" }
+"ui.linenr.selected" = { fg = "fg_dim", modifiers = ["bold"] }
+"ui.gutter" = { bg = "bg" }
+
+"ui.virtual.whitespace" = { fg = "border" }
+"ui.virtual.indent-guide" = { fg = "border" }
+"ui.virtual.ruler" = { bg = "bg_ui" }
+"ui.virtual.wrap" = { fg = "border" }
+"ui.virtual.inlay-hint" = { fg = "comment" }
+"ui.virtual.jump-label" = { fg = "keyword", modifiers = ["bold"] }
+
+# Chrome 
+"ui.statusline" = { fg = "fg", bg = "bg_ui" }
+"ui.statusline.inactive" = { fg = "comment", bg = "bg_ui" }
+"ui.statusline.normal" = { fg = "on_accent", bg = "accent", modifiers = ["bold"] }
+"ui.statusline.insert" = { fg = "on_accent", bg = "keyword", modifiers = ["bold"] }
+"ui.statusline.select" = { fg = "on_accent", bg = "comment", modifiers = ["bold"] }
+
+"ui.bufferline" = { fg = "comment", bg = "bg_ui" }
+"ui.bufferline.active" = { fg = "fg", bg = "bg", modifiers = ["bold"] }
+"ui.bufferline.background" = { bg = "bg_ui" }
+
+"ui.popup" = { fg = "fg", bg = "bg_ui" }
+"ui.popup.info" = { fg = "fg", bg = "bg_ui" }
+"ui.help" = { fg = "fg", bg = "bg_ui" }
+"ui.menu" = { fg = "fg", bg = "bg_ui" }
+"ui.menu.selected" = { fg = "fg", bg = "sel_primary" }
+"ui.menu.scroll" = { fg = "comment", bg = "bg_ui" }
+"ui.window" = { fg = "border" }
+
+[palette]
+bg = "#14171B"
+bg_ui = "#1A1E23"
+fg = "#D5D9DF"
+fg_dim = "#9AA0A8"
+comment = "#6E737A"
+gutter = "#5B6169"
+border = "#2A2F36"
+cursorline = "#1A1E23"
+sel = "#353349"
+sel_primary = "#3D3A54"
+accent = "#B7A2FF"
+keyword = "#ED8EF3"
+string = "#4BDE7F"
+type = "#78AFFF"
+constant = "#FFA85E"
+error = "#FF5C59"
+on_accent = "#14171B"
