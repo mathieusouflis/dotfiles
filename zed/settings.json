@@ -13,7 +13,7 @@
   "session": {
     "trust_all_worktrees": true
   },
-  "helix_mode": false,
+  "helix_mode": true,
   "cli_default_open_behavior": "existing_window",
   "outline_panel": {
     "dock": "left"
@@ -32,7 +32,7 @@
   "edit_predictions": {
     "provider": "zed"
   },
-  "vim_mode": true,
+  "vim_mode": false,
   "colorize_brackets": false,
   "hard_tabs": false,
   "gutter": {

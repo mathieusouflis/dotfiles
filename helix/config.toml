@@ -1,5 +1,5 @@
 
-theme = "version14-dark"
+theme = "version14-dark-transparent"
 
 [editor]
 cursorline = true

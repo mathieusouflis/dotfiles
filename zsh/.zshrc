@@ -63,7 +63,7 @@ bindkey jj vi-cmd-mode
 
 ### ENV ###
 export LANG=en_US.UTF-8
-export EDITOR=/opt/homebrew/bin/nvim
+export EDITOR=/run/current-system/sw/bin/hx
 export DIRENV_LOG_FORMAT=""
 export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git/*"'
 
