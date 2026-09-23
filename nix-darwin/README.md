@@ -16,6 +16,11 @@ The school configuration is activated without root:
 ```bash
 home-manager switch --flake ~/dotfiles/nix-darwin#math@school
 ```
+
+The flake pins Nixpkgs and Home Manager to the matching `26.05` stable line.
+The Nix executable itself is supplied by the host: school `install.sh`
+checks that it is at least Nix 2.4 and enables `nix-command` and `flakes` in
+the user configuration.
 Idempotent, safe to re-run any time the flake changes. `darwin-rebuild`
 auto-selects the `darwinConfigurations` entry matching the current
 machine's hostname.

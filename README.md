@@ -84,10 +84,15 @@ darwin-rebuild switch --flake ~/dotfiles/nix-darwin
 home-manager switch --flake ~/dotfiles/nix-darwin#math@school
 ```
 
-The school session entry point is `hosts/school/xinitrc`. It pulls the latest
-`main`, installs Home Manager into the user profile if needed, activates the
-school generation, and then starts i3. Set `DOTFILES_DIR` if the repository
-is not at `~/dotfiles`.
+On EPITA machines, the session entry point is the repository's `install.sh`:
+EPITA calls `$AFS_DIR/.confs/install.sh` at login. It pulls the latest `main`,
+enables flakes in the user Nix configuration, checks the host Nix version,
+activates the pinned Home Manager generation, and restores an optional
+wallpaper link. The repository must therefore be cloned at `$AFS_DIR/.confs`.
+
+The school configuration uses Nixpkgs and Home Manager `26.05`, locked in
+`nix-darwin/flake.lock`. The host Nix installation is not replaced by the
+flake; it must be Nix 2.4 or newer because flakes were introduced there.
 
 `stow.sh` just does the stow half, every package to its correct
 target, without the prerequisite checks or the flake apply. useful on

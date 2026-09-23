@@ -22,6 +22,7 @@ these break for anyone who isn't Mathieu, on a clean clone:
 | `nix-darwin/flake.nix` | `system.primaryUser` | must match your local macOS username (`whoami`) |
 | `hosts/home/default.nix` | `home.username` / `home.homeDirectory` | must match your macOS account |
 | `hosts/school/default.nix` | `home.username` / `home.homeDirectory` | must match your school Linux account |
+| `install.sh` | AFS checkout path | the school checkout must be `$AFS_DIR/.confs` |
 
 ## worth reviewing
 
