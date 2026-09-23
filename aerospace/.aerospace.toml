@@ -145,7 +145,8 @@ alt-r = 'mode resize'
 
 # --- Launchers ---
 # Swap these for whatever you actually use; these assume Ghostty + Raycast.
-alt-enter = '''exec-and-forget open -na Ghostty'''
+# Reuse the existing Ghostty process; `-n` would force a new app instance.
+alt-enter = '''exec-and-forget open -a Ghostty'''
 alt-d = '''exec-and-forget open -a Raycast'''
 
 # --- Resize mode ---

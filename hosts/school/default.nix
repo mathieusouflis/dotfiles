@@ -12,6 +12,7 @@
     i3
     i3status
     picom
+    xorg.xset
     xorg.xinit
   ];
 

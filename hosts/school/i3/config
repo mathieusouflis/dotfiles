@@ -51,6 +51,8 @@ bindsym $mod+w layout tabbed
 # install.sh recreates that link on every session when the source exists.
 exec --no-startup-id sh -c 'if [ -f "$HOME/.config/wallpaper" ]; then feh --bg-fill "$HOME/.config/wallpaper"; fi'
 exec --no-startup-id sh -c 'pgrep -x picom >/dev/null 2>&1 || picom'
+# X11 uses milliseconds for the delay and repeats per second.
+exec --no-startup-id sh -c 'xset r rate 200 50'
 
 bar {
   status_command i3status

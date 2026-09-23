@@ -41,6 +41,13 @@
 
         security.pam.services.sudo_local.touchIdAuth = true;
 
+        # macOS uses lower values for faster key repeat. These are the
+        # fastest stable settings exposed by the global keyboard preferences.
+        system.defaults.NSGlobalDomain = {
+          KeyRepeat = 1;
+          InitialKeyRepeat = 10;
+        };
+
         environment.systemPackages = [
           pkgs.vim
           pkgs.neovim
