@@ -39,3 +39,19 @@ if [ -f "$wallpaper_source" ]; then
   mkdir -p "$HOME/.config"
   ln -sfn "$wallpaper_source" "$HOME/.config/wallpaper"
 fi
+
+# SSH keys are persistent AFS data, never repository data. Link only files
+# that the user has explicitly placed in $AFS_DIR/.ssh.
+afs_ssh_dir="$afs_dir/.ssh"
+if [ -d "$afs_ssh_dir" ]; then
+  mkdir -p "$HOME/.ssh"
+  chmod 700 "$HOME/.ssh"
+  for ssh_file in "$afs_ssh_dir"/*; do
+    [ -f "$ssh_file" ] || continue
+    ssh_name="$(basename "$ssh_file")"
+    ln -sfn "$ssh_file" "$HOME/.ssh/$ssh_name"
+    case "$ssh_name" in
+      id_*|*.pem) chmod 600 "$ssh_file" ;;
+    esac
+  done
+fi

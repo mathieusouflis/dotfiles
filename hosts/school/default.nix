@@ -11,10 +11,10 @@
     feh
     i3
     i3status
+    picom
     xorg.xinit
   ];
 
   xdg.configFile."alacritty" = { source = ../../alacritty; recursive = true; force = true; };
   xdg.configFile."i3/config" = { source = ./i3/config; force = true; };
-  home.file.".xinitrc".source = ./xinitrc;
 }

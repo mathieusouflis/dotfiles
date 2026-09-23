@@ -50,6 +50,7 @@ bindsym $mod+w layout tabbed
 # Optional wallpaper: place an image at ~/.config/wallpaper. The AFS
 # install.sh recreates that link on every session when the source exists.
 exec --no-startup-id sh -c 'if [ -f "$HOME/.config/wallpaper" ]; then feh --bg-fill "$HOME/.config/wallpaper"; fi'
+exec --no-startup-id sh -c 'pgrep -x picom >/dev/null 2>&1 || picom'
 
 bar {
   status_command i3status
