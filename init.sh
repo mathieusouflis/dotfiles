@@ -51,7 +51,7 @@ if command -v darwin-rebuild >/dev/null 2>&1; then
   darwin-rebuild switch --flake "$PWD/nix-darwin"
 else
   log "No darwin-rebuild on PATH yet, first-time bootstrap (needs sudo)"
-  sudo nix run nix-darwin/master#darwin-rebuild -- switch --flake "$PWD/nix-darwin"
+  sudo env NIX_CONFIG="$NIX_CONFIG" nix run nix-darwin/master#darwin-rebuild -- switch --flake "$PWD/nix-darwin"
 fi
 
 if ! command -v stow >/dev/null 2>&1; then
