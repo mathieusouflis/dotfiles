@@ -3,6 +3,11 @@
 set -e
 cd "$(dirname "$0")"
 
+if [ "$(id -u)" -eq 0 ]; then
+  echo "error: run ./init.sh as your normal user, without sudo; the script invokes sudo only where it is required" >&2
+  exit 1
+fi
+
 # ~/.zprofile only loads for login shells, so PATH is set explicitly
 # here to work regardless of how this script gets invoked.
 export PATH="/opt/homebrew/bin:/usr/local/bin:$PATH"
