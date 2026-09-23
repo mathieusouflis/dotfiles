@@ -9,6 +9,6 @@
     source = ../../aerospace/.aerospace.toml;
     force = true;
   };
-  xdg.configFile."ghostty" = { source = ../../ghostty; force = true; };
-  xdg.configFile."karabiner" = { source = ../../karabiner; force = true; };
+  xdg.configFile."ghostty" = { source = ../../ghostty; recursive = true; force = true; };
+  xdg.configFile."karabiner" = { source = ../../karabiner; recursive = true; force = true; };
 }

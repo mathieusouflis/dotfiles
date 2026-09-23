@@ -29,13 +29,13 @@
     force = true;
   };
 
-  xdg.configFile."atuin" = { source = ../../atuin; force = true; };
-  xdg.configFile."gh-dash" = { source = ../../gh-dash; force = true; };
-  xdg.configFile."git" = { source = ../../git; force = true; };
-  xdg.configFile."helix" = { source = ../../helix; force = true; };
-  xdg.configFile."nix" = { source = ../../nix; force = true; };
-  xdg.configFile."nvim" = { source = ../../nvim; force = true; };
-  xdg.configFile."zed" = { source = ../../zed; force = true; };
+  xdg.configFile."atuin" = { source = ../../atuin; recursive = true; force = true; };
+  xdg.configFile."gh-dash" = { source = ../../gh-dash; recursive = true; force = true; };
+  xdg.configFile."git" = { source = ../../git; recursive = true; force = true; };
+  xdg.configFile."helix" = { source = ../../helix; recursive = true; force = true; };
+  xdg.configFile."nix" = { source = ../../nix; recursive = true; force = true; };
+  xdg.configFile."nvim" = { source = ../../nvim; recursive = true; force = true; };
+  xdg.configFile."zed" = { source = ../../zed; recursive = true; force = true; };
   xdg.configFile."starship.toml" = {
     source = ../../starship/starship.toml;
     force = true;
