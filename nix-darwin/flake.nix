@@ -1,10 +1,6 @@
 {
   description = "Mathieu's cross-platform home and Darwin configuration";
 
-  nixConfig = {
-    extra-experimental-features = [ "nix-command" "flakes" ];
-  };
-
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-26.05-darwin";
     nix-darwin.url = "github:LnL7/nix-darwin/nix-darwin-26.05";

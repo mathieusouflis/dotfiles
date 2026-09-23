@@ -69,10 +69,11 @@ checks that Nix and Homebrew are installed (prints instructions and
 exits if not; it won't run their installers for you, since those need
 sudo), applies the `nix-darwin` flake (first-time bootstrap via
 `nix run nix-darwin` if `darwin-rebuild` isn't on `PATH` yet, otherwise
-`darwin-rebuild switch` directly), runs `stow.sh` (below), and installs
-the `gh-dash` extension if `gh` is present. safe to re-run any time,
-every step it takes is idempotent. During the migration it still runs Stow;
-do not remove that step until Home Manager has been tested on both machines.
+`darwin-rebuild switch` directly), and installs the `gh-dash` extension if
+`gh` is present. Home Manager now owns the dotfiles on macOS, so `init.sh`
+does not run Stow afterward; running both managers would make them fight over
+the same paths. The first activation replaces the old Stow links with
+Home Manager links because the generated content is the same.
 
 The flake also exposes the two Home Manager entry points:
 
@@ -94,10 +95,10 @@ The school configuration uses Nixpkgs and Home Manager `26.05`, locked in
 `nix-darwin/flake.lock`. The host Nix installation is not replaced by the
 flake; it must be Nix 2.4 or newer because flakes were introduced there.
 
-`stow.sh` just does the stow half, every package to its correct
-target, without the prerequisite checks or the flake apply. useful on
-its own after editing a config, so it's also aliased as `restow` in
-`.zshrc`:
+`stow.sh` is retained as a rollback/manual tool, but should not be run after
+Home Manager has taken ownership. It stows every package to its correct
+target without the prerequisite checks or the flake apply. It remains useful
+when reverting the migration, and is also aliased as `restow` in `.zshrc`:
 ```bash
 ./stow.sh
 # or, from anywhere, once the alias is stowed:

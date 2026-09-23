@@ -14,7 +14,7 @@
     xorg.xinit
   ];
 
-  xdg.configFile."alacritty".source = ../../alacritty;
-  xdg.configFile."i3/config".source = ./i3/config;
+  xdg.configFile."alacritty" = { source = ../../alacritty; force = true; };
+  xdg.configFile."i3/config" = { source = ./i3/config; force = true; };
   home.file.".xinitrc".source = ./xinitrc;
 }

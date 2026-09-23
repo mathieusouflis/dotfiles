@@ -7,6 +7,11 @@ cd "$(dirname "$0")"
 # here to work regardless of how this script gets invoked.
 export PATH="/opt/homebrew/bin:/usr/local/bin:$PATH"
 
+# The flake interface requires these features, but keeping them in NIX_CONFIG
+# avoids trusting a flake-provided configuration on every invocation.
+export NIX_CONFIG="${NIX_CONFIG-}
+experimental-features = nix-command flakes"
+
 log() { printf '==> %s\n' "$1"; }
 warn() { printf 'warning: %s\n' "$1" >&2; }
 
@@ -48,9 +53,6 @@ if ! command -v stow >/dev/null 2>&1; then
   echo "error: stow still not on PATH after applying the flake, check nix-darwin/flake.nix" >&2
   exit 1
 fi
-
-log "Stowing dotfiles..."
-./stow.sh
 
 if command -v gh >/dev/null 2>&1; then
   if ! gh extension list 2>/dev/null | grep -q dlvhdr/gh-dash; then

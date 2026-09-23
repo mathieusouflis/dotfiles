@@ -20,15 +20,24 @@
 
   programs.home-manager.enable = true;
 
-  home.file.".zshrc".source = ../../zsh/.zshrc;
-  home.file.".vimrc".source = ../../vim/.vimrc;
+  home.file.".zshrc" = {
+    source = ../../zsh/.zshrc;
+    force = true;
+  };
+  home.file.".vimrc" = {
+    source = ../../vim/.vimrc;
+    force = true;
+  };
 
-  xdg.configFile."atuin".source = ../../atuin;
-  xdg.configFile."gh-dash".source = ../../gh-dash;
-  xdg.configFile."git".source = ../../git;
-  xdg.configFile."helix".source = ../../helix;
-  xdg.configFile."nix".source = ../../nix;
-  xdg.configFile."nvim".source = ../../nvim;
-  xdg.configFile."zed".source = ../../zed;
-  xdg.configFile."starship.toml".source = ../../starship/starship.toml;
+  xdg.configFile."atuin" = { source = ../../atuin; force = true; };
+  xdg.configFile."gh-dash" = { source = ../../gh-dash; force = true; };
+  xdg.configFile."git" = { source = ../../git; force = true; };
+  xdg.configFile."helix" = { source = ../../helix; force = true; };
+  xdg.configFile."nix" = { source = ../../nix; force = true; };
+  xdg.configFile."nvim" = { source = ../../nvim; force = true; };
+  xdg.configFile."zed" = { source = ../../zed; force = true; };
+  xdg.configFile."starship.toml" = {
+    source = ../../starship/starship.toml;
+    force = true;
+  };
 }
