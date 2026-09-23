@@ -1,8 +1,9 @@
 # dotfiles
 
-my mac config, managed with stow. each package folder has its own
-README with what it's for -- this file is an index, plus the rule for
-how that documentation stays honest.
+cross-platform config for macOS and school Linux. The existing Stow
+bootstrap remains available while the Home Manager migration is validated.
+Each package folder has its own README with what it's for -- this file is an
+index, plus the rule for how that documentation stays honest.
 
 forking this for yourself? see [FORKING.md](FORKING.md) for what's
 hardcoded to me and needs to change first.
@@ -19,6 +20,15 @@ about the whole repo: how the packages map to targets, and how to
 install.
 
 ## layout
+
+The repository has three layers:
+
+- the existing tool folders, which remain the source files and keep their
+  history;
+- `modules/shared`, which exposes those files to Home Manager on both
+  machines;
+- `hosts/home` and `hosts/school`, which contain platform-specific files and
+  activation settings.
 
 each folder is a package, one dotfile per folder, flat, no nesting.
 
@@ -61,7 +71,23 @@ sudo), applies the `nix-darwin` flake (first-time bootstrap via
 `nix run nix-darwin` if `darwin-rebuild` isn't on `PATH` yet, otherwise
 `darwin-rebuild switch` directly), runs `stow.sh` (below), and installs
 the `gh-dash` extension if `gh` is present. safe to re-run any time,
-every step it takes is idempotent.
+every step it takes is idempotent. During the migration it still runs Stow;
+do not remove that step until Home Manager has been tested on both machines.
+
+The flake also exposes the two Home Manager entry points:
+
+```bash
+# macOS, through nix-darwin
+darwin-rebuild switch --flake ~/dotfiles/nix-darwin
+
+# school Linux, standalone and without root
+home-manager switch --flake ~/dotfiles/nix-darwin#math@school
+```
+
+The school session entry point is `hosts/school/xinitrc`. It pulls the latest
+`main`, installs Home Manager into the user profile if needed, activates the
+school generation, and then starts i3. Set `DOTFILES_DIR` if the repository
+is not at `~/dotfiles`.
 
 `stow.sh` just does the stow half, every package to its correct
 target, without the prerequisite checks or the flake apply. useful on

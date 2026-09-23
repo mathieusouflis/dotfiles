@@ -48,12 +48,23 @@ else
 fi
 unset _zcompdump
 autoload -U +X bashcompinit && bashcompinit
-source <(kubectl completion zsh)
-complete -o nospace -C /opt/homebrew/bin/terraform terraform
+if command -v kubectl >/dev/null 2>&1; then
+  source <(kubectl completion zsh)
+fi
+if command -v terraform >/dev/null 2>&1; then
+  complete -o nospace -C "$(command -v terraform)" terraform
+fi
 
 ### KEYBINDS ###
 # autosuggestions first: it defines the autosuggest-* widgets bound below
-source /run/current-system/sw/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+for plugin in \
+  "$HOME/.nix-profile/share/zsh-autosuggestions/zsh-autosuggestions.zsh" \
+  /run/current-system/sw/share/zsh-autosuggestions/zsh-autosuggestions.zsh; do
+  if [ -r "$plugin" ]; then
+    source "$plugin"
+    break
+  fi
+done
 bindkey '^w' autosuggest-execute
 bindkey '^e' autosuggest-accept
 bindkey '^L' vi-forward-word
@@ -63,12 +74,14 @@ bindkey jj vi-cmd-mode
 
 ### ENV ###
 export LANG=en_US.UTF-8
-export EDITOR=/run/current-system/sw/bin/hx
+export EDITOR="${EDITOR:-$(command -v hx || command -v nvim || command -v vim)}"
 export DIRENV_LOG_FORMAT=""
 export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git/*"'
 
 export PATH="$PATH:$HOME/.local/bin"
-export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
+if [ -d /opt/homebrew/opt/libpq/bin ]; then
+  export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
+fi
 
 # Go
 export PATH="$PATH:$HOME/go/bin"
@@ -156,8 +169,11 @@ alias .....="cd ../../../.."
 alias ......="cd ../../../../.."
 
 ### FZF ###
-[ -f "$(brew --prefix fzf)/shell/completion.zsh" ] && source "$(brew --prefix fzf)/shell/completion.zsh" 2>/dev/null
-[ -f "$(brew --prefix fzf)/shell/key-bindings.zsh" ] && source "$(brew --prefix fzf)/shell/key-bindings.zsh" 2>/dev/null
+if command -v brew >/dev/null 2>&1; then
+  fzf_prefix="$(brew --prefix fzf 2>/dev/null || true)"
+  [ -f "$fzf_prefix/shell/completion.zsh" ] && source "$fzf_prefix/shell/completion.zsh" 2>/dev/null
+  [ -f "$fzf_prefix/shell/key-bindings.zsh" ] && source "$fzf_prefix/shell/key-bindings.zsh" 2>/dev/null
+fi
 
 ### NAVIGATION ###
 cx() { cd "$@" && l }
@@ -171,15 +187,26 @@ if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then
 fi
 
 ### INIT ###
-eval $(thefuck --alias)
+if command -v thefuck >/dev/null 2>&1; then
+  eval "$(thefuck --alias)"
+fi
 export STARSHIP_CONFIG=~/.config/starship.toml
 eval "$(starship init zsh)"
 eval "$(zoxide init zsh)"
 eval "$(atuin init zsh)"
-eval "$(devenv hook zsh)"
+if command -v devenv >/dev/null 2>&1; then
+  eval "$(devenv hook zsh)"
+fi
 
 # must stay last: it only highlights what's already defined above it
-source /run/current-system/sw/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+for plugin in \
+  "$HOME/.nix-profile/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" \
+  /run/current-system/sw/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh; do
+  if [ -r "$plugin" ]; then
+    source "$plugin"
+    break
+  fi
+done
 
 # comment defaults to fg=black,bold, i.e. ANSI slot 0 -- and Ghostty leaves
 # bold-color unset, so bold black stays on slot 0 instead of brightening to 8.

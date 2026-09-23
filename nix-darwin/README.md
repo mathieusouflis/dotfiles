@@ -3,10 +3,18 @@
 The system flake: packages, Homebrew casks/brews, and macOS defaults
 shared across every Mac this is used on. Not a stow package -- `init.sh`
 and `darwin-rebuild` read `flake.nix`/`flake.lock` directly from this
-path, nothing gets symlinked into `$HOME`.
+path. The same flake also exposes the standalone school Home Manager
+configuration; its files live in the repository root's `modules/` and
+`hosts/` directories.
 
 ```
 darwin-rebuild switch --flake ~/dotfiles/nix-darwin
+```
+
+The school configuration is activated without root:
+
+```bash
+home-manager switch --flake ~/dotfiles/nix-darwin#math@school
 ```
 Idempotent, safe to re-run any time the flake changes. `darwin-rebuild`
 auto-selects the `darwinConfigurations` entry matching the current

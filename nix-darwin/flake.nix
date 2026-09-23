@@ -5,6 +5,10 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     nix-darwin.url = "github:LnL7/nix-darwin";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
+    home-manager = {
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -12,6 +16,7 @@
       self,
       nix-darwin,
       nixpkgs,
+      home-manager,
     }:
 
     let
@@ -188,9 +193,31 @@
       darwinConfigurations = nixpkgs.lib.genAttrs hostnames (
         hostName:
         nix-darwin.lib.darwinSystem {
-          modules = [ (mkConfiguration hostName) ];
+          modules = [
+            (mkConfiguration hostName)
+            home-manager.darwinModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.users.mathieusouflis = {
+                home.homeDirectory = nixpkgs.lib.mkForce "/Users/mathieusouflis";
+                imports = [
+                  ../modules/shared
+                  ../hosts/home
+                ];
+              };
+            }
+          ];
         }
       );
+
+      homeConfigurations."math@school" = home-manager.lib.homeManagerConfiguration {
+        pkgs = nixpkgs.legacyPackages.x86_64-linux;
+        modules = [
+          ../modules/shared
+          ../hosts/school
+        ];
+      };
 
       # used by `nix eval .#darwinPackages.<name>.outPath` to check a
       # package builds before adding it to systemPackages.
