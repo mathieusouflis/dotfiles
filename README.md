@@ -86,10 +86,20 @@ home-manager switch --flake ~/dotfiles/nix-darwin#math@school
 ```
 
 On EPITA machines, the session entry point is the repository's `install.sh`:
-EPITA calls `$AFS_DIR/.confs/install.sh` at login. It pulls the latest `main`,
+EPITA calls `$AFS_DIR/.confs/install.sh` at login. If `AFS_DIR` is not exported,
+the script uses `$HOME/afs/.confs`, which is the local school path. It pulls the latest `main`,
 enables flakes in the user Nix configuration, checks the host Nix version,
 activates the pinned Home Manager generation, and restores an optional
 wallpaper link. The repository must therefore be cloned at `$AFS_DIR/.confs`.
+
+Additional untracked school application configuration can be placed under
+`$AFS_DIR/.confs/home/`; `install.sh` mirrors that tree into `$HOME` on every
+login. This covers apps such as Firefox and Discord without adding a new Nix
+declaration for each one. See [the school notes](hosts/school/README.md).
+
+The flake also exposes `nixosConfigurations.school-vm`, which can be built
+with `nix build ./nix-darwin#nixosConfigurations.school-vm.config.system.build.vm`
+on a Linux Nix host to test the school desktop in QEMU.
 
 The school configuration uses Nixpkgs and Home Manager `26.05`, locked in
 `nix-darwin/flake.lock`. The host Nix installation is not replaced by the

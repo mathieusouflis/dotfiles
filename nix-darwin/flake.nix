@@ -226,6 +226,15 @@
         ];
       };
 
+      nixosConfigurations.school-vm = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = { modulesPath = "${nixpkgs}/nixos/modules"; };
+        modules = [
+          home-manager.nixosModules.home-manager
+          ../hosts/school/vm.nix
+        ];
+      };
+
       # used by `nix eval .#darwinPackages.<name>.outPath` to check a
       # package builds before adding it to systemPackages.
       darwinPackages = (builtins.head (builtins.attrValues self.darwinConfigurations)).pkgs;

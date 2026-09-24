@@ -5,5 +5,7 @@ fzf
 history.txt
 openspec
 hosts/school/wallpaper
+# Extra school-only files are kept in persistent AFS and linked by install.sh.
+/home/
 *.swp
 *.swo
