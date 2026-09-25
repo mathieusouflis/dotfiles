@@ -56,6 +56,9 @@ every themeable tool here runs the same [Version 14](https://github.com/version1
 palette (Dark/Black/Light) -- see each package's own README for where
 its copy lives and which variant is active.
 
+Helix (`hx`) is the default editor on both macOS and school Linux through
+`EDITOR` and `VISUAL`.
+
 `nix-darwin` and raycast aren't stow packages; see
 [nix-darwin/README.md](nix-darwin/README.md) for both, plus the
 default-browser and devenv setup.
@@ -100,6 +103,16 @@ declaration for each one. See [the school notes](hosts/school/README.md).
 The flake also exposes `nixosConfigurations.school-vm`, which can be built
 with `nix build ./nix-darwin#nixosConfigurations.school-vm.config.system.build.vm`
 on a Linux Nix host to test the school desktop in QEMU.
+
+For an Apple-Silicon NixOS VM, use the native ARM64 outputs instead:
+
+```bash
+home-manager switch --flake ./nix-darwin#math@school-aarch64
+nix build ./nix-darwin#nixosConfigurations.school-vm-aarch64.config.system.build.vm
+```
+
+The ARM64 configuration shares exactly the same school modules as the EPITA
+x86_64 configuration; only the package architecture changes.
 
 The school configuration uses Nixpkgs and Home Manager `26.05`, locked in
 `nix-darwin/flake.lock`. The host Nix installation is not replaced by the

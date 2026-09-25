@@ -59,3 +59,14 @@ EPITA AFS mount. It cannot reproduce EPITA's login wrapper or AFS itself; to
 test that part, create a temporary fake tree at `$HOME/afs/.confs`, copy the
 repository there, add a sample `home/.config/example/config`, and run
 `AFS_DIR="$HOME/afs" ./install.sh` inside the VM.
+
+On an Apple-Silicon Mac, an ARM64 NixOS VM is faster than emulating the
+school's x86_64 CPU. Inside an ARM64 NixOS VM, use the native output:
+
+```bash
+home-manager switch --flake ./nix-darwin#math@school-aarch64
+nix build ./nix-darwin#nixosConfigurations.school-vm-aarch64.config.system.build.vm
+```
+
+For an exact architecture match, use the x86_64 VM output instead; it is
+portable but slower under Apple-Silicon emulation.

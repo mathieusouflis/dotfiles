@@ -74,7 +74,10 @@ bindkey jj vi-cmd-mode
 
 ### ENV ###
 export LANG=en_US.UTF-8
-export EDITOR="${EDITOR:-$(command -v hx || command -v nvim || command -v vim)}"
+# Helix is the default editor on both macOS and school Linux. Keep this
+# explicit instead of falling back to another editor when a shell starts.
+export EDITOR="hx"
+export VISUAL="hx"
 export DIRENV_LOG_FORMAT=""
 export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git/*"'
 

@@ -218,21 +218,47 @@
         }
       );
 
-      homeConfigurations."math@school" = home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages.x86_64-linux;
-        modules = [
-          ../modules/shared
-          ../hosts/school
-        ];
+      homeConfigurations = {
+        # This is the real EPITA target.
+        "math@school" = home-manager.lib.homeManagerConfiguration {
+          pkgs = nixpkgs.legacyPackages.x86_64-linux;
+          modules = [
+            ../modules/shared
+            ../hosts/school
+          ];
+        };
+
+        # Native Apple-Silicon Linux VM target. It has the same modules and
+        # settings, but uses the VM's aarch64-linux package set.
+        "math@school-aarch64" = home-manager.lib.homeManagerConfiguration {
+          pkgs = nixpkgs.legacyPackages.aarch64-linux;
+          modules = [
+            ../modules/shared
+            ../hosts/school
+          ];
+        };
       };
 
-      nixosConfigurations.school-vm = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        specialArgs = { modulesPath = "${nixpkgs}/nixos/modules"; };
-        modules = [
-          home-manager.nixosModules.home-manager
-          ../hosts/school/vm.nix
-        ];
+      nixosConfigurations = {
+        # Exact architecture used by the school machines.
+        school-vm = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          specialArgs = { modulesPath = "${nixpkgs}/nixos/modules"; };
+          modules = [
+            home-manager.nixosModules.home-manager
+            ../hosts/school/vm.nix
+          ];
+        };
+
+        # Fast VM target for Apple-Silicon Macs running an ARM64 NixOS VM.
+        school-vm-aarch64 = nixpkgs.lib.nixosSystem {
+          system = "aarch64-linux";
+          specialArgs = { modulesPath = "${nixpkgs}/nixos/modules"; };
+          modules = [
+            home-manager.nixosModules.home-manager
+            ../hosts/school/vm.nix
+          ];
+        };
       };
 
       # used by `nix eval .#darwinPackages.<name>.outPath` to check a

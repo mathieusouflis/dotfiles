@@ -1,6 +1,11 @@
 { pkgs, ... }:
 
 {
+  home.sessionVariables = {
+    EDITOR = "hx";
+    VISUAL = "hx";
+  };
+
   home.packages = with pkgs; [
     atuin
     direnv
