@@ -44,6 +44,8 @@
         # macOS uses lower values for faster key repeat. These are the
         # fastest stable settings exposed by the global keyboard preferences.
         system.defaults.NSGlobalDomain = {
+          # Disable the accent popup so holding a letter repeats it.
+          ApplePressAndHoldEnabled = false;
           KeyRepeat = 1;
           InitialKeyRepeat = 10;
         };
