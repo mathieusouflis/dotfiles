@@ -3,9 +3,19 @@
 set -e
 cd "$(dirname "$0")"
 
+if [ "$(id -u)" -eq 0 ]; then
+  echo "error: run ./init.sh as your normal user, without sudo; the script invokes sudo only where it is required" >&2
+  exit 1
+fi
+
 # ~/.zprofile only loads for login shells, so PATH is set explicitly
 # here to work regardless of how this script gets invoked.
 export PATH="/opt/homebrew/bin:/usr/local/bin:$PATH"
+
+# The flake interface requires these features, but keeping them in NIX_CONFIG
+# avoids trusting a flake-provided configuration on every invocation.
+export NIX_CONFIG="${NIX_CONFIG-}
+experimental-features = nix-command flakes"
 
 log() { printf '==> %s\n' "$1"; }
 warn() { printf 'warning: %s\n' "$1" >&2; }
@@ -38,19 +48,16 @@ fi
 
 log "Applying nix-darwin flake..."
 if command -v darwin-rebuild >/dev/null 2>&1; then
-  darwin-rebuild switch --flake "$PWD/nix-darwin"
+  sudo env NIX_CONFIG="$NIX_CONFIG" darwin-rebuild switch --flake "$PWD/nix-darwin"
 else
   log "No darwin-rebuild on PATH yet, first-time bootstrap (needs sudo)"
-  sudo nix run nix-darwin/master#darwin-rebuild -- switch --flake "$PWD/nix-darwin"
+  sudo env NIX_CONFIG="$NIX_CONFIG" nix run nix-darwin/master#darwin-rebuild -- switch --flake "$PWD/nix-darwin"
 fi
 
 if ! command -v stow >/dev/null 2>&1; then
   echo "error: stow still not on PATH after applying the flake, check nix-darwin/flake.nix" >&2
   exit 1
 fi
-
-log "Stowing dotfiles..."
-./stow.sh
 
 if command -v gh >/dev/null 2>&1; then
   if ! gh extension list 2>/dev/null | grep -q dlvhdr/gh-dash; then

@@ -9,6 +9,12 @@ window-padding-x = 10
 window-padding-y = 10
 window-padding-balance = true
 window-padding-color = background
+
+# Create a window inside the existing Ghostty process, rather than launching
+# another macOS application instance. Ghostty will request Accessibility
+# permission the first time this global keybind is loaded.
+keybind = global:alt+enter=new_window
+
 mouse-hide-while-typing = true
 macos-option-as-alt = true
 window-decoration = true

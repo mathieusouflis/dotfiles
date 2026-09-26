@@ -144,8 +144,8 @@ alt-shift-c = 'reload-config'
 alt-r = 'mode resize'
 
 # --- Launchers ---
-# Swap these for whatever you actually use; these assume Ghostty + Raycast.
-alt-enter = '''exec-and-forget open -na Ghostty'''
+# Ghostty owns Alt+Enter through its global `new_window` keybind so the new
+# window stays inside the existing Ghostty application process.
 alt-d = '''exec-and-forget open -a Raycast'''
 
 # --- Resize mode ---

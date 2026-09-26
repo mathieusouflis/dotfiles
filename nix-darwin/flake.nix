@@ -1,10 +1,14 @@
 {
-  description = "Mathieu's Darwin system flake";
+  description = "Mathieu's cross-platform home and Darwin configuration";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-    nix-darwin.url = "github:LnL7/nix-darwin";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-26.05-darwin";
+    nix-darwin.url = "github:LnL7/nix-darwin/nix-darwin-26.05";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
+    home-manager = {
+      url = "github:nix-community/home-manager/release-26.05";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -12,6 +16,7 @@
       self,
       nix-darwin,
       nixpkgs,
+      home-manager,
     }:
 
     let
@@ -35,6 +40,15 @@
         system.primaryUser = "mathieusouflis";
 
         security.pam.services.sudo_local.touchIdAuth = true;
+
+        # macOS uses lower values for faster key repeat. These are the
+        # fastest stable settings exposed by the global keyboard preferences.
+        system.defaults.NSGlobalDomain = {
+          # Disable the accent popup so holding a letter repeats it.
+          ApplePressAndHoldEnabled = false;
+          KeyRepeat = 1;
+          InitialKeyRepeat = 10;
+        };
 
         environment.systemPackages = [
           pkgs.vim
@@ -188,9 +202,66 @@
       darwinConfigurations = nixpkgs.lib.genAttrs hostnames (
         hostName:
         nix-darwin.lib.darwinSystem {
-          modules = [ (mkConfiguration hostName) ];
+          modules = [
+            (mkConfiguration hostName)
+            home-manager.darwinModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.users.mathieusouflis = {
+                home.homeDirectory = nixpkgs.lib.mkForce "/Users/mathieusouflis";
+                imports = [
+                  ../modules/shared
+                  ../hosts/home
+                ];
+              };
+            }
+          ];
         }
       );
+
+      homeConfigurations = {
+        # This is the real EPITA target.
+        "math@school" = home-manager.lib.homeManagerConfiguration {
+          pkgs = nixpkgs.legacyPackages.x86_64-linux;
+          modules = [
+            ../modules/shared
+            ../hosts/school
+          ];
+        };
+
+        # Native Apple-Silicon Linux VM target. It has the same modules and
+        # settings, but uses the VM's aarch64-linux package set.
+        "math@school-aarch64" = home-manager.lib.homeManagerConfiguration {
+          pkgs = nixpkgs.legacyPackages.aarch64-linux;
+          modules = [
+            ../modules/shared
+            ../hosts/school
+          ];
+        };
+      };
+
+      nixosConfigurations = {
+        # Exact architecture used by the school machines.
+        school-vm = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          specialArgs = { modulesPath = "${nixpkgs}/nixos/modules"; };
+          modules = [
+            home-manager.nixosModules.home-manager
+            ../hosts/school/vm.nix
+          ];
+        };
+
+        # Fast VM target for Apple-Silicon Macs running an ARM64 NixOS VM.
+        school-vm-aarch64 = nixpkgs.lib.nixosSystem {
+          system = "aarch64-linux";
+          specialArgs = { modulesPath = "${nixpkgs}/nixos/modules"; };
+          modules = [
+            home-manager.nixosModules.home-manager
+            ../hosts/school/vm.nix
+          ];
+        };
+      };
 
       # used by `nix eval .#darwinPackages.<name>.outPath` to check a
       # package builds before adding it to systemPackages.

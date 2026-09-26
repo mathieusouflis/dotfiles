@@ -20,6 +20,9 @@ these break for anyone who isn't Mathieu, on a clean clone:
 | `git/config` | `user.signingkey`, with `commit.gpgsign` / `tag.gpgSign` on | commits and tags fail to sign until you point `signingkey` at a key you actually hold. either [generate and register your own GPG key](https://docs.github.com/en/authentication/managing-commit-signature-verification/generating-a-new-gpg-key), or set both `gpgsign` and `gpgSign` to `false` in `git/config` to turn signing off |
 | `nix-darwin/flake.nix` | `hostnames` list | the flake only applies to hostnames listed here. add yours (`scutil --get ComputerName`) |
 | `nix-darwin/flake.nix` | `system.primaryUser` | must match your local macOS username (`whoami`) |
+| `hosts/home/default.nix` | `home.username` / `home.homeDirectory` | must match your macOS account |
+| `hosts/school/default.nix` | `home.username` / `home.homeDirectory` | must match your school Linux account |
+| `install.sh` | AFS checkout path | the school checkout must be `$AFS_DIR/.confs` |
 
 ## worth reviewing
 
@@ -41,4 +44,6 @@ prune or swap to your own:
   where it lives)
 
 once you've gone through the must-edit table, follow the [init
-section](README.md#init) to install.
+section](README.md#init) to install. For school, make sure the repository is
+available from the persistent home directory before using
+`hosts/school/xinitrc` as the X session entry point.
