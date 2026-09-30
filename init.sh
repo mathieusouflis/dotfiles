@@ -8,9 +8,26 @@ if [ "$(id -u)" -eq 0 ]; then
   exit 1
 fi
 
-# ~/.zprofile only loads for login shells, so PATH is set explicitly
-# here to work regardless of how this script gets invoked.
-export PATH="/opt/homebrew/bin:/usr/local/bin:$PATH"
+# ~/.zprofile is not guaranteed to run when this script is invoked as
+# `sh init.sh`. Load Nix's profile and add the known profile locations here so
+# a Homebrew upgrade cannot make an installed Nix look missing.
+if [ -r /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh ]; then
+  . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
+fi
+
+for profile_bin in \
+  /nix/var/nix/profiles/default/bin \
+  /run/current-system/sw/bin \
+  "$HOME/.nix-profile/bin" \
+  "/etc/profiles/per-user/$(id -un)/bin" \
+  /opt/homebrew/bin \
+  /usr/local/bin; do
+  case ":$PATH:" in
+    *":$profile_bin:"*) ;;
+    *) PATH="$profile_bin:$PATH" ;;
+  esac
+done
+export PATH
 
 # The flake interface requires these features, but keeping them in NIX_CONFIG
 # avoids trusting a flake-provided configuration on every invocation.
