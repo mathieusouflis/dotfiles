@@ -144,8 +144,10 @@ alt-shift-c = 'reload-config'
 alt-r = 'mode resize'
 
 # --- Launchers ---
-# Ghostty owns Alt+Enter through its global `new_window` keybind so the new
-# window stays inside the existing Ghostty application process.
+# AeroSpace owns this binding so it also works when Ghostty is not running.
+# AppleScript activates Ghostty if necessary, then creates a window inside the
+# existing application process.
+alt-enter = '''exec-and-forget osascript -e 'tell application "Ghostty" to activate' -e 'tell application "Ghostty" to set win to new window' '''
 alt-d = '''exec-and-forget open -a Raycast'''
 
 # --- Resize mode ---
