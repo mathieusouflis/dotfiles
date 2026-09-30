@@ -189,6 +189,21 @@ if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then
   . '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
 fi
 
+# Home Manager and nix-darwin keep executables in separate profiles. Add all
+# of them explicitly so shell startup does not depend on /etc/zprofile or on
+# Homebrew having preserved the previous PATH.
+for profile_bin in \
+  /run/current-system/sw/bin \
+  "/etc/profiles/per-user/$(id -un)/bin" \
+  "$HOME/.nix-profile/bin" \
+  /nix/var/nix/profiles/default/bin; do
+  case ":$PATH:" in
+    *":$profile_bin:"*) ;;
+    *) PATH="$profile_bin:$PATH" ;;
+  esac
+done
+export PATH
+
 ### INIT ###
 if command -v thefuck >/dev/null 2>&1; then
   eval "$(thefuck --alias)"
