@@ -35,20 +35,20 @@ stow_package() {
 }
 
 # Targets
-stow_package ghostty   "$HOME/.config/ghostty"
-stow_package git       "$HOME/.config/git"
-stow_package nvim      "$HOME/.config/nvim"
-stow_package atuin     "$HOME/.config/atuin"
-stow_package gh-dash   "$HOME/.config/gh-dash"
-stow_package starship  "$HOME/.config"
-stow_package nix       "$HOME/.config/nix"
-stow_package zed       "$HOME/.config/zed"
+stow_package ghostty   "$HOME/.config/ghostty" --adopt
+stow_package git       "$HOME/.config/git" --adopt
+stow_package nvim      "$HOME/.config/nvim" --adopt 
+stow_package atuin     "$HOME/.config/atuin" --adopt
+stow_package gh-dash   "$HOME/.config/gh-dash" --adopt
+stow_package starship  "$HOME/.config" --adopt
+stow_package nix       "$HOME/.config/nix" --adopt
+stow_package zed       "$HOME/.config/zed" --adopt
 stow_package alacritty "$HOME/.config/alacritty" --adopt
 stow_package helix     "$HOME/.config/helix" --adopt
 
-stow_package zsh       "$HOME"
-stow_package vim       "$HOME"
-stow_package aerospace "$HOME"
+stow_package zsh       "$HOME" --adopt
+stow_package vim       "$HOME" --adopt
+stow_package aerospace "$HOME" --adopt
 
 stow_package karabiner "$HOME/.config/karabiner" --adopt
 

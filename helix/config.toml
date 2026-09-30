@@ -5,6 +5,7 @@ theme = "version14-dark-transparent"
 cursorline = true
 color-modes = true        # required for the violet/green/pink mode pill in the statusline
 bufferline = "multiple"
+line-number = "relative"
 
 [editor.indent-guides]
 render = true

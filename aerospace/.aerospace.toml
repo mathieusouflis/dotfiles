@@ -144,8 +144,10 @@ alt-shift-c = 'reload-config'
 alt-r = 'mode resize'
 
 # --- Launchers ---
-# Swap these for whatever you actually use; these assume Ghostty + Raycast.
-alt-enter = '''exec-and-forget open -na Ghostty'''
+# AeroSpace owns this binding so it also works when Ghostty is not running.
+# The helper launches Ghostty when closed, otherwise creates a window in its
+# existing application process.
+alt-enter = 'exec-and-forget ~/.local/bin/launch-ghostty'
 alt-d = '''exec-and-forget open -a Raycast'''
 
 # --- Resize mode ---

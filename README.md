@@ -1,8 +1,9 @@
 # dotfiles
 
-my mac config, managed with stow. each package folder has its own
-README with what it's for -- this file is an index, plus the rule for
-how that documentation stays honest.
+cross-platform config for macOS and school Linux. The existing Stow
+bootstrap remains available while the Home Manager migration is validated.
+Each package folder has its own README with what it's for -- this file is an
+index, plus the rule for how that documentation stays honest.
 
 forking this for yourself? see [FORKING.md](FORKING.md) for what's
 hardcoded to me and needs to change first.
@@ -19,6 +20,15 @@ about the whole repo: how the packages map to targets, and how to
 install.
 
 ## layout
+
+The repository has three layers:
+
+- the existing tool folders, which remain the source files and keep their
+  history;
+- `modules/shared`, which exposes those files to Home Manager on both
+  machines;
+- `hosts/home` and `hosts/school`, which contain platform-specific files and
+  activation settings.
 
 each folder is a package, one dotfile per folder, flat, no nesting.
 
@@ -46,6 +56,9 @@ every themeable tool here runs the same [Version 14](https://github.com/version1
 palette (Dark/Black/Light) -- see each package's own README for where
 its copy lives and which variant is active.
 
+Helix (`hx`) is the default editor on both macOS and school Linux through
+`EDITOR` and `VISUAL`.
+
 `nix-darwin` and raycast aren't stow packages; see
 [nix-darwin/README.md](nix-darwin/README.md) for both, plus the
 default-browser and devenv setup.
@@ -59,14 +72,56 @@ checks that Nix and Homebrew are installed (prints instructions and
 exits if not; it won't run their installers for you, since those need
 sudo), applies the `nix-darwin` flake (first-time bootstrap via
 `nix run nix-darwin` if `darwin-rebuild` isn't on `PATH` yet, otherwise
-`darwin-rebuild switch` directly), runs `stow.sh` (below), and installs
-the `gh-dash` extension if `gh` is present. safe to re-run any time,
-every step it takes is idempotent.
+`darwin-rebuild switch` directly), and installs the `gh-dash` extension if
+`gh` is present. Home Manager now owns the dotfiles on macOS, so `init.sh`
+does not run Stow afterward; running both managers would make them fight over
+the same paths. The first activation replaces the old Stow links with
+Home Manager links because the generated content is the same.
 
-`stow.sh` just does the stow half, every package to its correct
-target, without the prerequisite checks or the flake apply. useful on
-its own after editing a config, so it's also aliased as `restow` in
-`.zshrc`:
+The flake also exposes the two Home Manager entry points:
+
+```bash
+# macOS, through nix-darwin
+darwin-rebuild switch --flake ~/dotfiles/nix-darwin
+
+# school Linux, standalone and without root
+home-manager switch --flake ~/dotfiles/nix-darwin#math@school
+```
+
+On EPITA machines, the session entry point is the repository's `install.sh`:
+EPITA calls `$AFS_DIR/.confs/install.sh` at login. If `AFS_DIR` is not exported,
+the script uses `$HOME/afs/.confs`, which is the local school path. It pulls the latest `main`,
+enables flakes in the user Nix configuration, checks the host Nix version,
+activates the pinned Home Manager generation, and restores an optional
+wallpaper link. The repository must therefore be cloned at `$AFS_DIR/.confs`.
+
+Additional untracked school application configuration can be placed under
+`$AFS_DIR/.confs/home/`; `install.sh` mirrors that tree into `$HOME` on every
+login. This covers apps such as Firefox and Discord without adding a new Nix
+declaration for each one. See [the school notes](hosts/school/README.md).
+
+The flake also exposes `nixosConfigurations.school-vm`, which can be built
+with `nix build ./nix-darwin#nixosConfigurations.school-vm.config.system.build.vm`
+on a Linux Nix host to test the school desktop in QEMU.
+
+For an Apple-Silicon NixOS VM, use the native ARM64 outputs instead:
+
+```bash
+home-manager switch --flake ./nix-darwin#math@school-aarch64
+nix build ./nix-darwin#nixosConfigurations.school-vm-aarch64.config.system.build.vm
+```
+
+The ARM64 configuration shares exactly the same school modules as the EPITA
+x86_64 configuration; only the package architecture changes.
+
+The school configuration uses Nixpkgs and Home Manager `26.05`, locked in
+`nix-darwin/flake.lock`. The host Nix installation is not replaced by the
+flake; it must be Nix 2.4 or newer because flakes were introduced there.
+
+`stow.sh` is retained as a rollback/manual tool, but should not be run after
+Home Manager has taken ownership. It stows every package to its correct
+target without the prerequisite checks or the flake apply. It remains useful
+when reverting the migration, and is also aliased as `restow` in `.zshrc`:
 ```bash
 ./stow.sh
 # or, from anywhere, once the alias is stowed:
