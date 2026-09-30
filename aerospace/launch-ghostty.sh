@@ -2,10 +2,12 @@
 
 set -eu
 
-if pgrep -x Ghostty >/dev/null 2>&1; then
+if osascript -e 'application "Ghostty" is running' 2>/dev/null | grep -q true; then
   osascript \
-    -e 'tell application "Ghostty" to activate' \
-    -e 'tell application "Ghostty" to set win to new window'
+    -e 'tell application "Ghostty"' \
+    -e 'activate' \
+    -e 'set win to new window' \
+    -e 'end tell'
 else
   open -a Ghostty
 fi
