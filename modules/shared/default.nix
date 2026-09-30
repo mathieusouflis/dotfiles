@@ -1,6 +1,12 @@
-{ pkgs, ... }:
+{ config, pkgs, ... }:
 
 {
+  # Make every Home Manager-installed executable available to login sessions,
+  # including shells that do not source the repository's .zshrc.
+  home.sessionPath = [
+    "${config.home.profileDirectory}/bin"
+  ];
+
   home.sessionVariables = {
     EDITOR = "hx";
     VISUAL = "hx";

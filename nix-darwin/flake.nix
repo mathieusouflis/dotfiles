@@ -86,6 +86,13 @@
           "/share/zsh-syntax-highlighting"
         ];
 
+        # Keep both the nix-darwin system profile and the Home Manager user
+        # profile available to every login shell, independently of Homebrew.
+        environment.systemPath = [
+          "/run/current-system/sw/bin"
+          "/etc/profiles/per-user/${config.system.primaryUser}/bin"
+        ];
+
         homebrew.enable = true;
         homebrew.casks = [
           "ghostty"
