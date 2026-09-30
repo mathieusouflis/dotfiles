@@ -46,8 +46,8 @@
         system.defaults.NSGlobalDomain = {
           # Disable the accent popup so holding a letter repeats it.
           ApplePressAndHoldEnabled = false;
-          KeyRepeat = 1;
-          InitialKeyRepeat = 10;
+          KeyRepeat = 2;
+          InitialKeyRepeat = 12;
         };
 
         environment.systemPackages = [
@@ -113,6 +113,7 @@
           # sets the macOS default handler for http(s) links; see
           # postActivation below.
           "duti"
+          "countdown"
         ];
 
         # Raycast keeps almost everything it knows (per-extension hotkeys,
