@@ -9,6 +9,11 @@
     source = ../../aerospace/.aerospace.toml;
     force = true;
   };
+  home.file.".local/bin/launch-ghostty" = {
+    source = ../../aerospace/launch-ghostty.sh;
+    executable = true;
+    force = true;
+  };
   xdg.configFile."ghostty" = { source = ../../ghostty; recursive = true; force = true; };
   xdg.configFile."karabiner" = { source = ../../karabiner; recursive = true; force = true; };
 }

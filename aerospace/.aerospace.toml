@@ -145,9 +145,9 @@ alt-r = 'mode resize'
 
 # --- Launchers ---
 # AeroSpace owns this binding so it also works when Ghostty is not running.
-# AppleScript activates Ghostty if necessary, then creates a window inside the
+# The helper launches Ghostty when closed, otherwise creates a window in its
 # existing application process.
-alt-enter = '''exec-and-forget osascript -e 'tell application "Ghostty" to activate' -e 'tell application "Ghostty" to set win to new window' '''
+alt-enter = 'exec-and-forget ~/.local/bin/launch-ghostty'
 alt-d = '''exec-and-forget open -a Raycast'''
 
 # --- Resize mode ---
